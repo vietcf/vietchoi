@@ -4,7 +4,7 @@ title: "Active Directory Security - Quay lại các khái niệm cơ bản, P1"
 author: "vietcf"
 categories: job
 tags: ['Active Directory']
-image: assets/img/2024/04/04/intro.png
+image: assets/img/2024/04/10/intro.png
 ---
 
 Như đã giới thiệu, để bắt đầu tôi sẽ nhắc qua một số khái niệm "theo tôi nghĩ" là quan trọng trước khi nói về AD Security. Các khái niệm này có thể đã quen thuộc với mọi người, đặc biệt là những ai từng làm việc với AD. Tuy nhiên tôi vẫn muốn nhắc lại vì đôi khi có nhiều cái quen quá đâm ra chúng ta lại không để ý hoặc nhầm lẫn, vậy thôi cứ làm rõ ở đây với nhau đi.
