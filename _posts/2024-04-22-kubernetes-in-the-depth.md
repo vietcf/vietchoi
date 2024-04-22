@@ -37,4 +37,11 @@ Kubernetes API là một HTTP RESTful API. Được Expose trên Control Node ch
 
 API này hỗ trợ việc duyệt (retrieve), tạo (create), sửa (update) và xóa (delete) các kubernetes resource thông qua chuẩn HTTP verbs (POST, PUT, PATCH, DELETE, GET). Dĩ nhiên để thực hiện các việc này cần thông qua các bước Xác thực và kiểm tra phân quyền.
 
+## Thử gọi API của Kubernetes
+
+Có nhiều cách để gọi API của kubernetes có thể tham khảo tại [Link này](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/). Xem qua thì đơn giản nhất là sử dụng ```kubectl proxy```.
+
+* Bước 1:  là ```kubectl proxy --port=8080 &``` để kubectl tự binding một port 8080 ở local.
+* Bước 2: Chuyển qua terminal khác và thử dùng curl truy cập vào api này ```curl http://localhost:8080/api/``` thì ra kết quả như sau:
+
 
