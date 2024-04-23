@@ -122,11 +122,11 @@ NetNTLM thường được gọi là *Windows Authentication* hoặc *NTLM Authe
 
 **3** Client kết hợp NTLM password hash của nó với challenge (và các dữ liệu đã biết khác) để tạo ra một response cho challenge và gửi nó trở lại Server xác minh.
 
-**3** Server chuyển tiếp challenge và response đến Domain Controller để xác minh.
+**4** Server chuyển tiếp challenge và response đến Domain Controller để xác minh.
 
-**4** Domain Controller sử dụng challenge để tính lại response  và so sánh nó original response được gửi bởi Client. Nếu cả hai khớp nhau, Client được xác thực; nếu không, quyền truy cập bị từ chối. Kết quả xác thực được gửi trở lại cho Server.
+**5** Domain Controller sử dụng challenge để tính lại response  và so sánh nó original response được gửi bởi Client. Nếu cả hai khớp nhau, Client được xác thực; nếu không, quyền truy cập bị từ chối. Kết quả xác thực được gửi trở lại cho Server.
 
-**5** Server chuyển tiếp kết quả xác thực cho Client.
+**6** Server chuyển tiếp kết quả xác thực cho Client.
 
 Lưu ý: Quá trình được mô tả áp dụng khi sử dụng một domain account. Nếu sử dụng một tài local, Server có thể xác minh response mà không cần tương tác với Domain Controller vì nó đã lưu trữ password hash cục bộ trên SAM của mình.
 
