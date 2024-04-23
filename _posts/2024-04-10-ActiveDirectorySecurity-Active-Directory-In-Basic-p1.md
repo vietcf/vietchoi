@@ -35,6 +35,13 @@ Chắc hẳn ta đã quá quen thuộc với các khái niệm trên hình như:
 
 ### Có một vài khái niệm liên quan tới AD Object ít người để ý xin mô tả lại ở đây
 
+#### Về kết nối dành cho AD
+Các kết nối dành cho AD là kết nối 1 chiều từ Computer -> Domain Controller. Các kết nối này có Port xác định hoàn toàn không cần mở Any ở Service gây ra các rủi do về ANTT không đáng có. Có thể tham khảo tại [đây](https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/config-firewall-for-ad-domains-and-trusts). Nhưng tôi xin tổng hợp lại ngắn gọn như sau:
+
+![Port for AD]( {{site.url}}/assets/img/2024/04/10/01-port-for-ad.png)
+
+Tôi đã gặp rất nhiều bên luống cuống cứ mở phải mở Any 2 chiều từ Computer <---> Firewall khi thiết lập Policy FW cho AD. Hài hước!
+
 #### Về group
 - Group có 2 kiểu là Security group và Distribution groups
     + Security group: được sử dụng để cấp quyền cho người dùng truy cập vào các tài nguyên được chia sẻ. 
@@ -55,7 +62,9 @@ Trong One-way lại chia ra outgoing trust và incoming trust. Giả sử miền
 
 ![Oneway trust]( {{site.url}}/assets/img/2024/04/10/01_oneway_trust.png)
 
+#### Về Computer
 
+Thông thường chúng ta hay chia ra Workstation/PC và Member Server. Tuy nhiên bản chất 2 loại này trên AD bản chất chỉ là một ~ đối tượng Computer trên AD. Chỉ là khi tổ chức, apply chính sách ta chia ra mà thôi - một dạng thói quen. Hãy nhớ rằng hoàn toàn không có sự khác biệt nào giữa 2 loại này cả
 
 ### Nói thì nghe hài hước nhưng thỉnh thoảng vẫn có một số khái niệm lẫn lộn cần nhắc lại ở đây
 
