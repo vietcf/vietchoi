@@ -93,8 +93,9 @@ Xin phép chia ra làm 2 category như sau:
 
 * Nhóm "Quan trọng" (Nhóm cần bảo vệ) bao gồm:
 
-Đọc nhiều hơn bạn có thể đọc ở [Link này](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory#domain-admins). Nhưng tôi nghĩ là không nên vì đặc điểm của MS là viết dai viết dài đâm ra thành viết dại chả ai đọc, các nội dung chính tôi đã tóm tắt ở trên rồi.
+![Privileage Group2]( {{site.url}}/assets/img/2024/04/10/03-built-in-user-group.png)
 
+Đọc nhiều hơn bạn có thể đọc ở [Link này](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory#domain-admins). Nhưng tôi nghĩ là không nên vì đặc điểm của MS là viết dai viết dài đâm ra thành viết dại chả ai đọc, các nội dung chính tôi đã tóm tắt ở trên rồi.
 
 ## Các cơ chế xác thực trên AD điều cần phải biết,
 
