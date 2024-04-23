@@ -3,7 +3,7 @@ layout: post
 title: "Kubernetes In Depth  - Giới thiệu về Kubernetes API server, P1"
 author: "vietcf"
 categories: job
-tags: ['Active Directory']
+tags: ['Kubernetes']
 image: assets/img/2024/04/22/0-intro-kubernetes.png
 ---
 
