@@ -117,15 +117,18 @@ NetNTLM thường được gọi là *Windows Authentication* hoặc *NTLM Authe
 ![NTLM Logon]( {{site.url}}/assets/img/2024/04/10/06-netNTLM-authen-method.png)
 
 **1** Client gửi một yêu cầu xác thực đến Server mà họ muốn truy cập.
+
 **2** Server tạo ra một số ngẫu nhiên và gửi nó dưới dạng một challenge đến Client.
+
 **3** Client kết hợp NTLM password hash của nó với challenge (và các dữ liệu đã biết khác) để tạo ra một response cho challenge và gửi nó trở lại Server xác minh.
+
 **3** Server chuyển tiếp challenge và response đến Domain Controller để xác minh.
+
 **4** Domain Controller sử dụng challenge để tính lại response  và so sánh nó original response được gửi bởi Client. Nếu cả hai khớp nhau, Client được xác thực; nếu không, quyền truy cập bị từ chối. Kết quả xác thực được gửi trở lại cho Server.
+
 **5** Server chuyển tiếp kết quả xác thực cho Client.
 
 Lưu ý: Quá trình được mô tả áp dụng khi sử dụng một domain account. Nếu sử dụng một tài local, Server có thể xác minh response mà không cần tương tác với Domain Controller vì nó đã lưu trữ password hash cục bộ trên SAM của mình.
-
-
 
 ### Kerberos Authentication
 Xác thực Kerberos là giao thức xác thực mặc định cho các phiên bản Windows gần đây. Người dùng đăng nhập vào một service sử dụng Kerberos sẽ được cấp cho Ticket. Nghĩ về Ticket như bằng chứng của việc đã thực hiện xác thực trước đó. Người dùng có Ticket có thể trình diễn chúng cho một Service để chứng minh rằng họ đã được xác thực vào mạng trước đó và do đó có thể sử dụng Service.
