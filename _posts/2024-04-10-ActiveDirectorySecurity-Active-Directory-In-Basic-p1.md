@@ -81,7 +81,7 @@ Một Domain có các Domain controller là các các máy chủ (Đối tượn
 #### Phân biệt Group và OU (Organizational Unit) (ai mới làm AD cũng hay bị nhẫm lần giữa chúng)
 Hãy nhớ rằng Group sinh ra để nhóm các đối tượng quản lý và phân quyền truy cập tới tài nguyên (File/Thư mục) hoặc chính sách gửi mail trong khi OU tập trung vào việc nhóm các đối tượng lại với nhau để thiết lập các chính sách (VD: Chính sách mật khẩu, Audit log, ...). 
 
-Trong AD cũng định nghĩa sẵn một số Group/User có sẵn (built-in User/Group). Các User/Group này một số là các đối tượng với *Đặc quyền** đặc biệt trên hệ thống ~ Privilege User/Group trên hệ thống Active Directory. Nhóm này cần được tập trung tối đa trong việc quản lý/sử dụng vì mất một user trong nhóm này là vô cùng nghiêm trọng. Tôi chia ra làm 2 nhóm với Level khác nhau.
+Trong AD cũng định nghĩa sẵn một số Group/User có sẵn (built-in User/Group). Các User/Group này một số là các đối tượng với **Đặc quyền** đặc biệt trên hệ thống ~ Privilege User/Group trên hệ thống Active Directory. Nhóm này cần được tập trung tối đa trong việc quản lý/sử dụng vì mất một user trong nhóm này là vô cùng nghiêm trọng. Tôi chia ra làm 2 nhóm với Level khác nhau.
 
 ### Privilege Group/User trên AD bắt buộc phải biết
 
@@ -105,7 +105,20 @@ Chúng ta hay sử dụng Console logon máy tính Windows trực tiếp hoặc 
 
 Mọi quá trình logon này đều phải thực hiện một bước rất quan trọng đó là Xác thực. Hiện trên AD hỗ trợ một số kiểu xác thực như sau:
 
+### NTLM and NetNTLM
+New Technology LAN Manager (NTLM) là bộ giao thức bảo mật được sử dụng để xác thực User Identity trong Active Directory (AD). NTLM có sử dụng một phương pháp dựa trên challenge-response-based scheme gọi là NetNTLM. Cơ chế xác thực này được sử dụng rộng rãi để xác thực các dịch vụ trong mạng nội bộ (LAN). Tuy nhiên thực tế NetNTLM cũng có thể được sử dụng để xác thực cho các dịch vụ ngoài Internet. Dưới đây là một số ví dụ phổ biến như:
+* Xác thực Outlook Web App (OWA) login portal
+* Xác thực Remote Desktop Protocol (RDP) của một máy chủ Expose ra ngoài Internet
+* Xác thực VPN Endpoint được tích hợp với AD
+* Các ứng dụng web được phát triển cho internet và sử dụng NetNTLM
+
+NetNTLM thường được gọi là *Windows Authentication* hoặc *NTLM Authentication*, cho phép ứng dụng (App) đóng vai trò của một bên trung gian giữa Client và AD. Tất cả các dữ liệu xác thực từ Client được chuyển tiếp qua App đến điểm cuối Domain Controller dưới cấu trúc của một challenge. Và nếu kết quả của việc xác thực thành công thì coi như User có quyền truy cập App. Điều này có nghĩa là App đóng vai trò thay mặt cho User thực hiện xác thực với AD và việc xác thực User không được thực hiện trực tiếp trên chính App. Ưu điểm của phương pháp này là có thể ngăn App lưu trữ các thông tin xác thực của User, thông tin này chỉ được lưu trữ trên Domain Controller. Quá trình này được minh họa trong sơ đồ dưới đây:
+
+![NTLM Logon]( {{site.url}}/assets/img/2024/04/10/06-netNTLM-authen-method.png)
+
 ### Kerberos Authentication
+
+
 
 ### NetNTLM 
 
