@@ -64,11 +64,9 @@ Trong One-way lại chia ra outgoing trust và incoming trust. Giả sử miền
 
 #### Về Computer
 
-Thông thường chúng ta hay chia ra Workstation/PC và Member Server. Tuy nhiên bản chất 2 loại này trên AD bản chất chỉ là một ~ đối tượng Computer trên AD. Chỉ là khi tổ chức, apply chính sách ta chia ra mà thôi - một dạng thói quen. Hãy nhớ rằng hoàn toàn không có sự khác biệt nào giữa 2 loại này cả
+Thông thường chúng ta hay chia ra Workstation/PC và Member Server. Tuy nhiên 2 loại này trên AD bản chất chỉ là một ~ đối tượng Computer trên AD. Chỉ là khi tổ chức, apply chính sách ta chia ra mà thôi. Hãy nhớ rằng hoàn toàn không có sự khác biệt nào giữa 2 loại này cả. Tôi nói ở đây là vì có nhiều Sysadmin khi động vào Member Server cứ kêu oai oái kêu là nó khác với Workstation/PC :) không dám làm gì cả, khóc thét.
 
 ### Nói thì nghe hài hước nhưng thỉnh thoảng vẫn có một số khái niệm lẫn lộn cần nhắc lại ở đây
-
-Computer/PC/MemberServer có sự khác biệt nào ở đây??? Thật ra tôi thấy chả có sự khác biệt nào cả, bản chất chúng đều là một dạng đối tượng Computer trên AD mà thôi. Nghĩa là cách thức thực hiện/thiết lập và kết quả mang lại cùng một Policy là giống hệt nhau không có sự khác biệt. Tôi nói ở đây là vì có nhiều Sysadmin khi động vào Member Server cứ kêu oai oái kêu là nó khác với PC :) khóc thét.
 
 Domain vs Domain Controller: Một Domain có các Domain Controllers là các các máy chủ (Đối tượng Computer) có vai trò đặc biệt để vận hành hoạt động của Domain. Các máy chủ này mặc định được bố trí vào một OU riêng tách biệt không lẫn lộn với các các đối tượng khác. Cứ join thêm một Domain Controller (Bao gồm cả Read Only Domain Controller - RODC) thì nó auto được nhét vào đây.
 
