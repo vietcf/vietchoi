@@ -116,19 +116,38 @@ NetNTLM thường được gọi là *Windows Authentication* hoặc *NTLM Authe
 
 ![NTLM Logon]( {{site.url}}/assets/img/2024/04/10/06-netNTLM-authen-method.png)
 
+**1** Client gửi một yêu cầu xác thực đến Server mà họ muốn truy cập.
+**2** Server tạo ra một số ngẫu nhiên và gửi nó dưới dạng một challenge đến Client.
+**3** Client kết hợp NTLM password hash của nó với challenge (và các dữ liệu đã biết khác) để tạo ra một response cho challenge và gửi nó trở lại Server xác minh.
+**3** Server chuyển tiếp challenge và response đến Domain Controller để xác minh.
+**4** Domain Controller sử dụng challenge để tính lại response  và so sánh nó original response được gửi bởi Client. Nếu cả hai khớp nhau, Client được xác thực; nếu không, quyền truy cập bị từ chối. Kết quả xác thực được gửi trở lại cho Server.
+**5** Server chuyển tiếp kết quả xác thực cho Client.
+
+Lưu ý: Quá trình được mô tả áp dụng khi sử dụng một domain account. Nếu sử dụng một tài local, Server có thể xác minh response mà không cần tương tác với Domain Controller vì nó đã lưu trữ password hash cục bộ trên SAM của mình.
+
+
+
 ### Kerberos Authentication
 Xác thực Kerberos là giao thức xác thực mặc định cho các phiên bản Windows gần đây. Người dùng đăng nhập vào một service sử dụng Kerberos sẽ được cấp cho Ticket. Nghĩ về Ticket như bằng chứng của việc đã thực hiện xác thực trước đó. Người dùng có Ticket có thể trình diễn chúng cho một Service để chứng minh rằng họ đã được xác thực vào mạng trước đó và do đó có thể sử dụng Service.
 
 Khi Kerberos được sử dụng cho việc xác thực, quá trình sau diễn ra:
 
-**Step 1**. Người dùng gửi username của họ và một timestamp (nhãn thời gian) được encrypted bằng key được tạo ra từ password của họ đến Key Distribution Center (KDC), một dịch vụ thường được cài đặt trên Domain Controller chịu trách nhiệm tạo ra các Kerberos Ticket trên mạng.
+**Bước 1** Người dùng gửi username của họ và một timestamp (nhãn thời gian) được encrypted bằng key được tạo ra từ password của họ đến Key Distribution Center (KDC), một dịch vụ thường được cài đặt trên Domain Controller chịu trách nhiệm tạo ra các Kerberos Ticket.
 
 KDC sẽ tạo ra và gửi lại Ticket Granting Ticket (TGT), cho phép người dùng request các Ticket bổ sung truy cập vào các Service cụ thể. Việc cần một Ticket để nhận được thêm Ticket khác nghe có vẻ kỳ quặc một chút, nhưng nó cho phép User request service mà không cần truyền thông tin xác thực của họ mỗi khi họ muốn kết nối với một service. Cùng với TGT, một Session Key được cung cấp cho người dùng, nó sẽ cần để tạo ra các request tiếp theo.
 
-Lưu ý rằng TGT được encrypted bằng cách sử dụng password hash của tài khoản krbtgt, và do đó người dùng không thể truy cập vào nội dung của nó. Điều quan trọng cần biết là TGT khi đã được encrypted có chứa bản copy của Session Key bên trong nội dung của nó, và KDC không cần lưu trữ Session Key vì nó có thể khôi phục lại một bản sao bằng cách giải mã TGT nếu cần.
-
 ![Keberos step 1]( {{site.url}}/assets/img/2024/04/10/07-keberos-step1.png)
 
+Lưu ý rằng TGT được encrypted bằng cách sử dụng password hash của tài khoản krbtgt, và do đó người dùng không thể truy cập vào nội dung của nó. Điều quan trọng cần biết là TGT khi đã được encrypted có chứa bản copy của Session Key bên trong nội dung của nó, và KDC không cần lưu trữ Session Key vì nó có thể khôi phục lại một bản sao bằng cách giải mã TGT nếu cần.
 
+![Keberos step 2]( {{site.url}}/assets/img/2024/04/10/07-keberos-step2.png)
+
+**Bước 2** Khi một người dùng muốn kết nối đến một dịch vụ trên mạng như Share Folder, website or database. Họ sẽ sử dụng TGT của mình để yêu cầu KDC cấp một Ticket Granting Service (TGS). TGS là các Ticket cho phép kết nối chỉ đến dịch vụ cụ thể mà chúng được tạo ra cho. Để yêu cầu một TGS, người dùng sẽ gửi username của họ và timestamp (dấu thời gian) được mã hóa bằng Session Key, cùng với TGT và một Service Principal Name (SPN), chỉ ra service và server name chúng ta dự định truy cập.
+
+Như kết quả, KDC sẽ gửi cho chúng ta một TGS cùng với một Service Session Key, mà chúng ta sẽ cần để xác thực đến Service chúng ta muốn truy cập. TGS được encrypted bằng cách sử dụng một khóa tạo ra từ Service Owner Hash. Service Owner là user hoặc machine account mà dịch vụ chạy dưới. TGS chứa một bản sao của Service Session Key trong nội dung đã encrypted  của nó để  Service Owner có thể truy cập vào nó bằng decrypt TGS.
+
+**Bước 3** TGS sau đó có thể được gửi đến service mong muốn để xác thực và thiết lập kết nối. Dịch vụ sẽ sử dụng account's password hash của tài khoản được cấu hình của mình để giải mã TGS và xác minh Service Session Key hợp lệ.
+
+![Keberos step 3]( {{site.url}}/assets/img/2024/04/10/07-keberos-step3.png)
 
 
