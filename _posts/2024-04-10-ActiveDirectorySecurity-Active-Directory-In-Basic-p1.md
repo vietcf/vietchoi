@@ -81,11 +81,8 @@ Một Domain có các Domain controller là các các máy chủ (Đối tượn
 #### Phân biệt Group và OU (Organizational Unit) (ai mới làm AD cũng hay bị nhẫm lần giữa chúng)
 Hãy nhớ rằng Group sinh ra để nhóm các đối tượng quản lý và phân quyền truy cập tới tài nguyên (File/Thư mục) hoặc chính sách gửi mail trong khi OU tập trung vào việc nhóm các đối tượng lại với nhau để thiết lập các chính sách (VD: Chính sách mật khẩu, Audit log, ...). 
 
-Trong AD cũng định nghĩa sẵn một số Group/User có sẵn (built-in User/Group). Các User/Group này một số là các đối tượng với **Đặc quyền** đặc biệt trên hệ thống ~ Privilege User/Group trên hệ thống Active Directory. Nhóm này cần được tập trung tối đa trong việc quản lý/sử dụng vì mất một user trong nhóm này là vô cùng nghiêm trọng. Tôi chia ra làm 2 nhóm với Level khác nhau.
-
 ### Privilege Group/User trên AD bắt buộc phải biết
-
-Xin phép chia ra làm 2 category như sau:
+Trong AD cũng định nghĩa sẵn một số Group/User có sẵn (built-in User/Group). Các User/Group này một số là các đối tượng với **Đặc quyền** đặc biệt trên hệ thống ~ Privilege User/Group trên hệ thống Active Directory. Nhóm này cần được tập trung tối đa trong việc quản lý/sử dụng vì mất một user trong nhóm này là vô cùng nghiêm trọng. Tuy nhiên tôi tiếp tục chia nhỏ ra làm 2 nhóm với Level khác nhau để dễ focuse hơn trong việc bảo vệ chúng.
 
 * Nhóm "Đặc biệt" quan trọng (Nhóm này ở dạng động vật quý hiếm cần bảo vệ tối đa) bao gồm:
 
@@ -120,7 +117,7 @@ NetNTLM thường được gọi là *Windows Authentication* hoặc *NTLM Authe
 
 **2** Server tạo ra một số ngẫu nhiên và gửi nó dưới dạng một challenge đến Client.
 
-**3** Client kết hợp NTLM password hash của nó với challenge (và các dữ liệu đã biết khác) để tạo ra một response cho challenge và gửi nó trở lại Server xác minh.
+**3** Client kết hợp NTLM password hash (*) của nó với challenge (và các dữ liệu đã biết khác) để tạo ra một response cho challenge và gửi nó trở lại Server xác minh.
 
 **4** Server chuyển tiếp challenge và response đến Domain Controller để xác minh.
 
@@ -129,6 +126,8 @@ NetNTLM thường được gọi là *Windows Authentication* hoặc *NTLM Authe
 **6** Server chuyển tiếp kết quả xác thực cho Client.
 
 Lưu ý: Quá trình được mô tả áp dụng khi sử dụng một domain account. Nếu sử dụng một tài local, Server có thể xác minh response mà không cần tương tác với Domain Controller vì nó đã lưu trữ password hash cục bộ trên SAM của mình.
+
+*(*)(The NTLM hash is encoded by taking the user’s password and converting it into a 16-byte key using an MD4 hash function. This key is divided into two halves of 8 bytes each, which are used as input to three rounds of DES encryption to generate a 16-byte output that represents the NTLM hash)*
 
 ### Kerberos Authentication
 Xác thực Kerberos là giao thức xác thực mặc định cho các phiên bản Windows gần đây. Người dùng đăng nhập vào một service sử dụng Kerberos sẽ được cấp cho Ticket. Nghĩ về Ticket như bằng chứng của việc đã thực hiện xác thực trước đó. Người dùng có Ticket có thể trình diễn chúng cho một Service để chứng minh rằng họ đã được xác thực vào mạng trước đó và do đó có thể sử dụng Service.
