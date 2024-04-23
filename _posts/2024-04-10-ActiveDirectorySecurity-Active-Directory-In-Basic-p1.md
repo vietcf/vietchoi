@@ -138,15 +138,15 @@ Khi Kerberos được sử dụng cho việc xác thực, quá trình sau diễn
 
 KDC sẽ tạo ra và gửi lại Ticket Granting Ticket (TGT), cho phép người dùng request các Ticket bổ sung truy cập vào các Service cụ thể. Việc cần một Ticket để nhận được thêm Ticket khác nghe có vẻ kỳ quặc một chút, nhưng nó cho phép User request service mà không cần truyền thông tin xác thực của họ mỗi khi họ muốn kết nối với một service. Cùng với TGT, một Session Key được cung cấp cho người dùng, nó sẽ cần để tạo ra các request tiếp theo.
 
-![Keberos step 1]( {{site.url}}/assets/img/2024/04/10/07-keberos-step1.png)
-
 Lưu ý rằng TGT được encrypted bằng cách sử dụng password hash của tài khoản krbtgt, và do đó người dùng không thể truy cập vào nội dung của nó. Điều quan trọng cần biết là TGT khi đã được encrypted có chứa bản copy của Session Key bên trong nội dung của nó, và KDC không cần lưu trữ Session Key vì nó có thể khôi phục lại một bản sao bằng cách giải mã TGT nếu cần.
 
-![Keberos step 2]( {{site.url}}/assets/img/2024/04/10/07-keberos-step2.png)
+![Keberos step 1]( {{site.url}}/assets/img/2024/04/10/07-keberos-step1.png)
 
 **Bước 2** Khi một người dùng muốn kết nối đến một dịch vụ trên mạng như Share Folder, website or database. Họ sẽ sử dụng TGT của mình để yêu cầu KDC cấp một Ticket Granting Service (TGS). TGS là các Ticket cho phép kết nối chỉ đến dịch vụ cụ thể mà chúng được tạo ra cho. Để yêu cầu một TGS, người dùng sẽ gửi username của họ và timestamp (dấu thời gian) được mã hóa bằng Session Key, cùng với TGT và một Service Principal Name (SPN), chỉ ra service và server name chúng ta dự định truy cập.
 
 Như kết quả, KDC sẽ gửi cho chúng ta một TGS cùng với một Service Session Key, mà chúng ta sẽ cần để xác thực đến Service chúng ta muốn truy cập. TGS được encrypted bằng cách sử dụng một khóa tạo ra từ Service Owner Hash. Service Owner là user hoặc machine account mà dịch vụ chạy dưới. TGS chứa một bản sao của Service Session Key trong nội dung đã encrypted  của nó để  Service Owner có thể truy cập vào nó bằng decrypt TGS.
+
+![Keberos step 2]( {{site.url}}/assets/img/2024/04/10/07-keberos-step2.png)
 
 **Bước 3** TGS sau đó có thể được gửi đến service mong muốn để xác thực và thiết lập kết nối. Dịch vụ sẽ sử dụng account's password hash của tài khoản được cấu hình của mình để giải mã TGS và xác minh Service Session Key hợp lệ.
 
