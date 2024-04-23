@@ -66,29 +66,37 @@ Trong One-way lại chia ra outgoing trust và incoming trust. Để giải thí
 
 Thông thường chúng ta hay chia ra Workstation/PC và Member Server. Tuy nhiên 2 loại này trên AD bản chất chỉ là một ~ đối tượng Computer trên AD. Chỉ là khi tổ chức, apply chính sách ta chia ra mà thôi. Hãy nhớ rằng hoàn toàn không có sự khác biệt nào giữa 2 loại này cả. Tôi nói ở đây là vì có nhiều Sysadmin khi động vào Member Server cứ kêu oai oái kêu là nó khác với Workstation/PC :) không dám làm gì cả, khóc thét.
 
-### Nói thì nghe hài hước nhưng thỉnh thoảng vẫn có một số khái niệm lẫn lộn cần nhắc lại ở đây
 
-Domain vs Domain Controller: Một Domain có các Domain Controllers là các các máy chủ (Đối tượng Computer) có vai trò đặc biệt để vận hành hoạt động của Domain. Các máy chủ này mặc định được bố trí vào một OU riêng tách biệt không lẫn lộn với các các đối tượng khác. Cứ join thêm một Domain Controller (Bao gồm cả Read Only Domain Controller - RODC) thì nó auto được nhét vào đây.
+#### Về Group Policy
 
-![Domain Controller OU]( {{site.url}}/assets/img/2024/04/10/02-domain-controllers.png)
-
-Ngoài ra có 2 đối tượng Group và OU (Organizational Unit) ai mới làm AD cũng hay bị nhẫm lần giữa chúng. Hãy nhớ rằng Group sinh ra để nhóm các đối tượng quản lý và phân quyền truy cập tới tài nguyên (File/Thư mục) hoặc chính sách gửi mail trong khi OU tập trung vào việc nhóm các đối tượng lại với nhau để thiết lập các chính sách (VD: Chính sách mật khẩu, Audit log, ...). 
-
-Trong AD cũng định nghĩa sẵn một số Group/User có sẵn (built-in User/Group). Các User/Group này một số là các đối tượng với *Đặc quyền** đặc biệt trên hệ thống ~ Privilege User/Group trên hệ thống Active Directory. Nhóm này cần được tập trung tối đa trong việc quản lý/sử dụng vì mất một user trong nhóm này là vô cùng nghiêm trọng. Tôi chia ra làm 2 nhóm với Level khác nhau.
-
-Nhóm "Đặc biệt" quan trọng (Nhóm này ở dạng động vật quý hiếm cần bảo vệ tối đa) bao gồm:
-
-![Privileage Group]( {{site.url}}/assets/img/2024/04/10/03-built-in-privilege-user-group.png)
-
-Nhóm "Quan trọng" (Nhóm cần bảo vệ) bao gồm:
-
-Đọc nhiều hơn bạn có thể đọc ở [Link này](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory#domain-admins). Nhưng tôi nghĩ là không nên vì đặc điểm của MS là viết dai viết dài đâm ra thành viết dại chả ai đọc, các nội dung chính tôi đã tóm tắt ở trên rồi.
-
-Group Policy: Một Group Policy là một tập các chính sách (Policy) áp dụng lên các đối tượng trên AD. Nói lý thuyết là vậy nhưng tôi thấy chủ yếu các Policy được "áp" lên 2 nhóm đối tượng chính và quan trọng nhất là Computer và User. Vì rõ là khi ta show ra chi tiết sẽ nhìn thấy 2 phần riêng biệt rõ ràng Computer và User.
+Một Group Policy là một tập các chính sách (Policy) áp dụng lên các đối tượng trên AD. Nói lý thuyết là vậy nhưng tôi thấy chủ yếu các Policy được "áp" lên 2 nhóm đối tượng chính và quan trọng nhất là Computer và User. Vì rõ là khi ta show ra chi tiết sẽ nhìn thấy 2 phần riêng biệt rõ ràng Computer và User.
 
 ![Computer with User]( {{site.url}}/assets/img/2024/04/10/04-computer-with-user.png)
 
 Tôi nhấn mạnh chỗ này để bạn hiểu rằng nếu mà muốn cấu hình lên các Workstation/Member server một Policy nào đó ở phần Computer thì phải nhét chúng vào OU có Group policy thiết lập Policy đó. Tương tự nếu muốn cấu hình Policy ốp ở phần User lên một User thì phải nhét User vào đúng OU có chứa Group Policy được thiết lập. Có nhiều bạn thắc mắc sao tôi cấu hình Policy mà không ăn thì hóa ra là cấu hình ở phần Computer nhưng lại không nhét Workstation/Member server vào OU thiết lập Policy lại đi nhét User vào đó - cái này không ăn là phải.
+
+### Nói thì nghe hài hước nhưng thỉnh thoảng vẫn có một số khái niệm lẫn lộn cần nhắc lại ở đây
+
+#### Domain vs Domain Controller
+Một Domain có các Domain controller là các các máy chủ (Đối tượng Computer) có vai trò đặc biệt để vận hành hoạt động của Domain. Các máy chủ này mặc định được bố trí vào một OU riêng tách biệt không lẫn lộn với các các đối tượng khác. Cứ join thêm một Domain Controller (Bao gồm cả Read Only Domain Controller - RODC) thì nó auto được nhét vào đây.
+
+![Domain Controller OU]( {{site.url}}/assets/img/2024/04/10/02-domain-controllers.png)
+
+#### Phân biệt Group và OU (Organizational Unit) (ai mới làm AD cũng hay bị nhẫm lần giữa chúng)
+
+Hãy nhớ rằng Group sinh ra để nhóm các đối tượng quản lý và phân quyền truy cập tới tài nguyên (File/Thư mục) hoặc chính sách gửi mail trong khi OU tập trung vào việc nhóm các đối tượng lại với nhau để thiết lập các chính sách (VD: Chính sách mật khẩu, Audit log, ...). 
+
+Trong AD cũng định nghĩa sẵn một số Group/User có sẵn (built-in User/Group). Các User/Group này một số là các đối tượng với *Đặc quyền** đặc biệt trên hệ thống ~ Privilege User/Group trên hệ thống Active Directory. Nhóm này cần được tập trung tối đa trong việc quản lý/sử dụng vì mất một user trong nhóm này là vô cùng nghiêm trọng. Tôi chia ra làm 2 nhóm với Level khác nhau.
+
+#### Privilege Group/User trên AD phải biết
+
+* Nhóm "Đặc biệt" quan trọng (Nhóm này ở dạng động vật quý hiếm cần bảo vệ tối đa) bao gồm:
+
+![Privileage Group]( {{site.url}}/assets/img/2024/04/10/03-built-in-privilege-user-group.png)
+
+* Nhóm "Quan trọng" (Nhóm cần bảo vệ) bao gồm:
+
+Đọc nhiều hơn bạn có thể đọc ở [Link này](https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-b--privileged-accounts-and-groups-in-active-directory#domain-admins). Nhưng tôi nghĩ là không nên vì đặc điểm của MS là viết dai viết dài đâm ra thành viết dại chả ai đọc, các nội dung chính tôi đã tóm tắt ở trên rồi.
 
 
 ## Các cơ chế xác thực trên AD điều cần phải biết,
