@@ -127,7 +127,7 @@ NetNTLM thường được gọi là *Windows Authentication* hoặc *NTLM Authe
 
 Lưu ý: Quá trình được mô tả áp dụng khi sử dụng một domain account. Nếu sử dụng một tài local, Server có thể xác minh response mà không cần tương tác với Domain Controller vì nó đã lưu trữ password hash cục bộ trên SAM của mình.
 
-*(*)(The NTLM hash is encoded by taking the user’s password and converting it into a 16-byte key using an MD4 hash function. This key is divided into two halves of 8 bytes each, which are used as input to three rounds of DES encryption to generate a 16-byte output that represents the NTLM hash)*
+*(The NTLM hash is encoded by taking the user’s password and converting it into a 16-byte key using an MD4 hash function. This key is divided into two halves of 8 bytes each, which are used as input to three rounds of DES encryption to generate a 16-byte output that represents the NTLM hash)*
 
 ### Kerberos Authentication
 Xác thực Kerberos là giao thức xác thực mặc định cho các phiên bản Windows gần đây. Người dùng đăng nhập vào một service sử dụng Kerberos sẽ được cấp cho Ticket. Nghĩ về Ticket như bằng chứng của việc đã thực hiện xác thực trước đó. Người dùng có Ticket có thể trình diễn chúng cho một Service để chứng minh rằng họ đã được xác thực vào mạng trước đó và do đó có thể sử dụng Service.
