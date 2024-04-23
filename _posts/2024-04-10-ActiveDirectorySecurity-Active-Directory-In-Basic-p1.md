@@ -99,6 +99,12 @@ Xin phép chia ra làm 2 category như sau:
 
 ## Các cơ chế xác thực trên AD điều cần phải biết,
 
+Chúng ta hay sử dụng Console logon máy tính Windows trực tiếp hoặc dùng qua RDP nhưng thực ra trên thế giới Windows còn nhiều hơn thế. Trước khi nói về cơ chế xác thực, tôi muốn nhắc lại về các hình thức logon phổ biến trên AD.
+
+![Logon type]( {{site.url}}/assets/img/2024/04/10/05-logon-ad-type.png)
+
+Mọi quá trình logon này đều phải thực hiện một bước rất quan trọng đó là Xác thực. Hiện trên AD hỗ trợ một số kiểu xác thực như sau:
+
 ### Kerberos Authentication
 
 ### NetNTLM 
