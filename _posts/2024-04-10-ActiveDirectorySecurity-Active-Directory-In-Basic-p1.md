@@ -117,13 +117,17 @@ NetNTLM thường được gọi là *Windows Authentication* hoặc *NTLM Authe
 ![NTLM Logon]( {{site.url}}/assets/img/2024/04/10/06-netNTLM-authen-method.png)
 
 ### Kerberos Authentication
+Xác thực Kerberos là giao thức xác thực mặc định cho các phiên bản Windows gần đây. Người dùng đăng nhập vào một service sử dụng Kerberos sẽ được cấp cho Ticket. Nghĩ về Ticket như bằng chứng của việc đã thực hiện xác thực trước đó. Người dùng có Ticket có thể trình diễn chúng cho một Service để chứng minh rằng họ đã được xác thực vào mạng trước đó và do đó có thể sử dụng Service.
 
+Khi Kerberos được sử dụng cho việc xác thực, quá trình sau diễn ra:
 
+**Step 1**. Người dùng gửi username của họ và một timestamp (nhãn thời gian) được encrypted bằng key được tạo ra từ password của họ đến Key Distribution Center (KDC), một dịch vụ thường được cài đặt trên Domain Controller chịu trách nhiệm tạo ra các Kerberos Ticket trên mạng.
 
-### NetNTLM 
+KDC sẽ tạo ra và gửi lại Ticket Granting Ticket (TGT), cho phép người dùng request các Ticket bổ sung truy cập vào các Service cụ thể. Việc cần một Ticket để nhận được thêm Ticket khác nghe có vẻ kỳ quặc một chút, nhưng nó cho phép User request service mà không cần truyền thông tin xác thực của họ mỗi khi họ muốn kết nối với một service. Cùng với TGT, một Session Key được cung cấp cho người dùng, nó sẽ cần để tạo ra các request tiếp theo.
 
-## Sự kết nối giữa nhiều Domain trên AD
+Lưu ý rằng TGT được encrypted bằng cách sử dụng password hash của tài khoản krbtgt, và do đó người dùng không thể truy cập vào nội dung của nó. Điều quan trọng cần biết là TGT khi đã được encrypted có chứa bản copy của Session Key bên trong nội dung của nó, và KDC không cần lưu trữ Session Key vì nó có thể khôi phục lại một bản sao bằng cách giải mã TGT nếu cần.
 
+![Keberos step 1]( {{site.url}}/assets/img/2024/04/10/07-keberos-step1.png)
 
 
 
