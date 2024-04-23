@@ -53,11 +53,11 @@ Tôi đã gặp rất nhiều bên luống cuống cứ mở phải mở Any 2 c
 Thông thường MS khuyến cáo sử dụng global groups hoặc universal groups thay vì domain local groups khi xác định quyền trong domain.
 
 #### Trust in AD
-Với hệ thống AD nhỏ có khi bạn không sử dụng cái này. Tuy nhiên với một Enterprise đôi khi vì nhu cầu thực tế họ lại phải sử dụng. Để hiểu về trust bạn hãy hình dung thế này đi bạn có hệ thống AD hoàn toàn độc lập domainA.local và domainB.local. Giờ làm sao để user đã logon trên domainA.local có thể login vào sử dụng các file Server trên domainB.local => Đây là lúc bạn cần thiết lập mối quan hệ trust (~tin tưởng) giữa các domain. 
+Với hệ thống AD nhỏ có khi bạn không sử dụng cái này. Tuy nhiên với một Enterprise đôi khi vì nhu cầu thực tế họ lại phải sử dụng. Để hiểu về trust bạn hãy hình dung thế này đi bạn có hệ thống AD hoàn toàn độc lập Example.local và Example.com. Giờ làm sao để user đã logon trên Example.local có thể sử dụng các file Server trênExample.com => Đây là lúc bạn cần thiết lập mối quan hệ trust (~tin tưởng) giữa các domain. 
 
 Mối quan hệ Trust có thể là Two-way hoặc One-way. Với Two-way: Khi đã xác thực (authen) trên một domain thì có khả năng sử dụng tài nguyên trên domain còn lại (Có thể xác thực ở cả 2 phía). Còn One-way thì chỉ cho phép xác thực từ 1 phía (domain) nhất định để sử dụng tài nguyên trên domain còn lại mà thôi. 
 
-Trong One-way lại chia ra outgoing trust và incoming trust. Giả sử miền hiện tại là Example.local và miền tin cậy là Example.chom. Thì với outgoing trust sẽ cho phép users từ Example.com thực hiện xác thực (authen) trên domain hiện tại Example.local. Ngược lại với incoming trust cho phép người dùng từ miền hiện tại Example.local xác thực trong miền được tin cậy (Example.com).
+Trong One-way lại chia ra outgoing trust và incoming trust. Để giải thích về 2 loại này tôi giả sử miền hiện tại là Example.local và miền tin cậy là Example.com. Thì với outgoing trust sẽ cho phép users từ Example.com thực hiện xác thực (authen) trên domain hiện tại Example.local. Ngược lại với incoming trust cho phép người dùng từ miền hiện tại Example.local xác thực trong miền được tin cậy (Example.com).
 
 
 ![Oneway trust]( {{site.url}}/assets/img/2024/04/10/01_oneway_trust.png)
