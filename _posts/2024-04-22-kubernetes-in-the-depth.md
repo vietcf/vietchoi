@@ -13,7 +13,7 @@ Bữa đang xoạn cái tiêu chuẩn thiết lập an toàn thông tin cho Kube
 
 Trước khi bắt đầu cần hiểu qua về các thành phần trong cụm Kubernetes (Thủy tổ của EKS/AKS). Nội dung này rất nhiều chỗ nói đi nói lại rồi, chỉ xin phép post lại cái hình và ghi chú sơ qua về các thành phần.
 
-![Kubernetes Component]({{site.url}}/assets/img/2024/04/22/1-kubernetes-component.png)
+![mitre-01]({{site.url}}/assets/img/2024/04/25/1-mitre.png)
 
 Chúng ta chia ra Control Plane phần nằm trên Controller Node và các Data Plane nằm trên các Worker Node. Khái niệm về Control Plane và Data Plane là khái niệm rất quen thuộc được dùng rất nhiều trong các mô hình của các hệ thống IT hiện tại. Trong đó phần Control Plane là phần thực hiện việc Orchestration ~ Tiếng việt có thể hiểu với ý nghĩa là điều khiển, điều phối nhiều Data Plane thực hiện các các công việc, đảm bảo việc phối hợp giữa các Data Plane trở nên nhịp nhàng. 
 
@@ -33,7 +33,7 @@ Chúng ta chia ra Control Plane phần nằm trên Controller Node và các Data
 
 Kubernetes API là một HTTP RESTful API. Được Expose trên Control Node chạy service kube-api-server. HTTP API này được End User và các thành phần khác trong hoặc ngoài cụm Kubernetes giao tiếp với cụm. 
 
-![Kubernetes Authen Author]({{site.url}}/assets/img/2024/04/22/1-Kubernetes-authen-author-01.png)
+![mitre-02]({{site.url}}/assets/img/2024/04/25/2-mitre.png)
 
 API này hỗ trợ việc duyệt (retrieve), tạo (create), sửa (update) và xóa (delete) các kubernetes resource thông qua chuẩn HTTP verbs (POST, PUT, PATCH, DELETE, GET). Dĩ nhiên để thực hiện các việc này cần thông qua các bước Xác thực và kiểm tra phân quyền.
 
