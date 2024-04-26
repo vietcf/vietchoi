@@ -10,7 +10,7 @@ image: assets/img/2024/04/25/0-intro-mitre.jpeg
 
 Hướng dẫn này được thiết kế để bạn có được một hiểu biết toàn diện về Khung cơ sở dữ liệu MITRE ATT&CK và khám phá cách bạn có thể áp dụng nó cho tổ chức của mình.
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled.png)
+![Mitre 01]({{site.url}}/assets/img/2024/04/25/1-mitre.png)
 
 # **1. Introduction**
 
@@ -20,11 +20,11 @@ Các IoC cung cấp thông tin quý giá về những gì đã xảy ra, chuẩn
 
 Một hệ thống phân loại IoC nổi tiếng, **The Pyramid of Pain** đã được giới thiệu vào năm 2013 bởi chuyên gia an ninh mạng David J Bianco. Bianco minh họa giá trị của mỗi loại chỉ số trong kim tự tháp này. Anh ấy đặt tên cho kim tự tháp là The Pyramid of Pain do mỗi cấp độ tương ứng với cảm giác “đau khổ” mà cả các chuyên gia an ninh cũng như kẻ thù cảm thấy.
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%201.png)
+![Mitre 02]({{site.url}}/assets/img/2024/04/25/2-mitre.png)
 
 Khi chúng ta leo lên các cấp độ cao hơn của kim tự tháp, việc thu thập và áp dụng các chỉ số trở nên ngày càng khó khăn hơn (đau đớn) đối với các chuyên gia an ninh (security professional). Tuy nhiên, cũng trở nên khó khăn hơn cho cả đối thủ (attacker) trong việc thay thế chúng bằng những thông tin khác (để ẩn danh/che dâu). Ví dụ, theo quan điểm của một security professional, việc thu thập và tích hợp các giá trị băm của các tệp độc hại vào các công cụ an ninh là dễ dàng, nhưng không dễ dàng để định nghĩa và áp dụng TTPs (Tactic, Technique, and Procedures) vào các công cụ an ninh. Từ góc nhìn của attacker, việc thay đổi giá trị băm của một tệp độc hại rất đơn giản, tuy nhiên việc thay đổi TTPs lại rất khó thực hiện. Theo quan điểm của người phòng thủ và kẻ tấn công, mỗi loại chỉ số được nêu trong bảng sau:
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%202.png)
+![Mitre 03]({{site.url}}/assets/img/2024/04/25/3-mitre.png)
 
 Bắt đầu từ phần mềm Antivirus thế hệ đầu tiên, chúng ta phát hiện các IOCs dựa trên các thông tin truyền thống như hash values, IP addresses, and domain names. Tuy nhiên, tại thời điểm hiện tại chúng ta cũng phải bắt đầu phát hiện dựa trên hành vi của kẻ thù, các Tactic, Technique, Procedures (TTPs) và các công cụ được sử dụng bởi kẻ thù. Ít nhất, chúng ta phải phát hiện các dấu vết (artifact) của họ trong mạng và máy chủ.
 
@@ -32,7 +32,7 @@ Bắt đầu từ phần mềm Antivirus thế hệ đầu tiên, chúng ta phá
 
 MITRE ATT&CK Framework  mô tả và tổ chức một cách có hệ thống các TTPs (Tactic, Technique, and Procedures). Đây là một public knowledge base (Dạng cơ sở dữ liệu mở công khai) có dễ dàng tiếp cận và được đóng góp bởi cộng đồng. Nó đã trở thành một ngôn ngữ chung giữa các security teams để mô tả các TTPs.
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%203.png)
+![Mitre 04]({{site.url}}/assets/img/2024/04/25/4-mitre.png)
 
 Cần hiểu rằng ATT&CK framework bao gồm hành vi của đối thủ được quan sát (đã biết), vì vậy không thể mong đợi nó sẽ bao gồm mọi hành vi của đối thủ.
 
@@ -46,11 +46,11 @@ Có 3 loại ATT&CK Matrix bao gồm:
 - Mobile: Đối tượng là môi trường Mobile
 - Industrial Control Systems (ICS): Đối tượng là các hệ thống điều khiển công nghiệp
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%204.png)
+![Mitre 05]({{site.url}}/assets/img/2024/04/25/5-mitre.png)
 
 Nói chung tùy môi trường mạng đang sử dụng mà ta sử dụng các matrix tương ứng. Ở đây ta thường hay làm với Enterprise nên sẽ tập trung vào Enterprise Matrix.
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%205.png)
+![Mitre 06]({{site.url}}/assets/img/2024/04/25/6-mitre.png)
 
 Trong ma trận này, mỗi cột đại diện cho một **Tactic ~** các mục tiêu kỹ thuật của đối thủ. Để đạt được những mục tiêu này kẻ thù sử dụng các **Technique** khác nhau. Nói đến đây nếu mà chưa hiểu hoặc chưa nhớ **Tactic, Technique** là gì cũng không sao. Chỉ cần nhớ các cột trong Matrix là các **Tactic**, mỗi ô là một **Technique.**
 
@@ -60,7 +60,7 @@ Từ đầu hay nói về Tactic, Technique, và Procedures trong MITRE ATT&CK, 
 
 *Chú ý ta cần biết các khái niệm này là gì thì mới khai thác được MITRE ATT&CK nên cái hình này và đoạn sau từ đây trở đi thì cần phải nhớ!*
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%206.png)
+![Mitre 07]({{site.url}}/assets/img/2024/04/25/7-mitre.png)
 
 ## **2.2. Tactics (TA)**
 
@@ -72,18 +72,18 @@ Ví dụ: attacker  có thể muốn lấy được Credential Access chỉ đ�
 
 - Hiện tại với môi trường Enterprise có khoảng 14 Tactics như sau
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%207.png)
+![Mitre 08]({{site.url}}/assets/img/2024/04/25/8-mitre.png)
 
 - ATT&CK framework không được thiết kế để đọc các tactic theo cách tuyến tính (linear ), và attacker không cần phải tiến qua các Tactics từ trái sang phải. Attacker cũng không nhất thiết phải sử dụng tất cả các chiến thuật ATT&CK.
 - Thông tin meta data của một Tactic như sau:
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%208.png)
+![Mitre 09]({{site.url}}/assets/img/2024/04/25/9-mitre.png)
 
 *Dễ thấy mỗi Tactic có một ID. Ví dụ, ID của chiến thuật Credential Access là TA0006. MITRE ATT&CK cũng cung cấp một mô tả ngắn gọn cho mỗi chiến thuật. Và thông tin ngày sửa đổi.*
 
 - Mỗi Tactic chứa một danh sách **Technique** đã từng được sử dụng bởi các nhân hoặc tổ chức đã từng thực hiện các cuộc tấn mạng trong thực tế (threat actor).
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%209.png)
+![Mitre 10]({{site.url}}/assets/img/2024/04/25/10-mitre.png)
 
 ## 2.3. **Technique** (T)
 
@@ -106,7 +106,7 @@ MITRE ATT&CK cung cấp thông tin sau về mỗi kỹ thuật
 
 Đây là mục Metadata của OS Credential Dumping technique
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%2010.png)
+![Mitre 11]({{site.url}}/assets/img/2024/04/25/11-mitre.png)
 
 Một vài trường thường có trong meta data bao gồm:
 
@@ -126,7 +126,7 @@ CAPEC ID: ID định danh duy nhất của một mẫu tấn công trong CAPEC. 
 
 Luôn có mô tả ở phần đầu của Technique
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%2011.png)
+![Mitre 12]({{site.url}}/assets/img/2024/04/25/12-mitre.png)
 
 ### **2.3.3. Sub-techniques**
 
