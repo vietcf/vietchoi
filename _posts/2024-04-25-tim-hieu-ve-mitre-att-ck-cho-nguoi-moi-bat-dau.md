@@ -110,15 +110,15 @@ MITRE ATT&CK cung cấp thông tin sau về mỗi kỹ thuật
 
 Một vài trường thường có trong meta data bao gồm:
 
-*ID: ID nhận diện của Technique. Thường bắt đầu bằng T.
-Sub-techniques: Danh sách ID của Technichque con
-Sub-technique of:
-Platforms: Nền  tảng có k/n sử dụng Techichque
-Permission Required: Quyền yêu cầu
-Data Sources: Nơi có thể thu thập IoC để phát hiện việc sử dụng kỹ thuật
-Defense Bypassed: Quy thuật bypass tránh bị phát hiện
-Impact Type: Impact trong t/h kỹ thuật được sử dụng. VD ảnh hưởng đến **availability** hay **integrity**
-CAPEC ID: ID định danh duy nhất của một mẫu tấn công trong CAPEC. Về CAPEC là một dự án khác của Mitre mô tả về các lỗi cách khai thác và khắc phục theo từng ngôn ngữ. Xem chi tiết [tại đây]([https://cwe.mitre.org/index.html](https://cwe.mitre.org/index.html))*
+- ID: ID nhận diện của Technique. **Thường bắt đầu bằng T**.
+- Sub-techniques: Danh sách ID của Technichque con (Trong trường hợp là technique cha)
+- Sub-technique of: Link sang technique cha (Trong trường hợp là technique con)
+- Platforms: Nền tảng có thể sử dụng Technichque
+- Permission Required: Quyền yêu cầu để thực hiện technique
+- Data Sources: Nơi có thể thu thập IoC để phát hiện việc sử dụng kỹ thuật
+- Defense Bypassed: Quy thuật bypass tránh bị phát hiện
+- Impact Type: Impact trong t/h kỹ thuật được sử dụng. VD: ảnh hưởng đến **availability** hay **integrity**
+- CAPEC ID: ID định danh duy nhất của một mẫu tấn công trong CAPEC. Về CAPEC là một dự án khác của Mitre mô tả về các lỗi cách khai thác và khắc phục theo từng ngôn ngữ. Xem chi tiết [tại đây]([https://cwe.mitre.org/index.html](https://cwe.mitre.org/index.html))*
 
 *Một số trường mở rộng khác như: Contributors, Version, Created, Last Modified*
 
@@ -132,7 +132,7 @@ Luôn có mô tả ở phần đầu của Technique
 
 Một technique có thể có các sub-technique
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%2012.png)
+![Mitre 13]({{site.url}}/assets/img/2024/04/25/13-mitre.png)
 
 ### **2.3.4. Procedure Examples (G/S)**
 
@@ -140,7 +140,7 @@ Phần **Procedure Examples** mô tả cách một kỹ thuật hoặc phụ k�
 
 Ví dụ: 'APT1 đã được biết đến sử dụng kỹ thuật lấy thông tin đăng nhập bằng cách sử dụng Mimikatz.' Vì vậy, các Procedure Examples có thể hỗ trợ trong việc xác định threat actor (Attacker Group) nào thực hiện kỹ thuật, cách nó áp dụng, và công cụ nào nó sử dụng. Với các ký hiệu ID bắt đầu bằng G ~ Attacker Group; S ~ Công cụ/phần mềm sử dụng. Sẽ nói chi tiết về Group và Software tiếp ở phần sau.
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%2013.png)
+![Mitre 14]({{site.url}}/assets/img/2024/04/25/14-mitre.png)
 
 Thông tin này có thể có giá trị để tái tạo một sự cố bằng cách mô phỏng hành vi của kẻ tấn công, cũng như cụ thể về cách phát hiện trường hợp khi nó được sử dụng. Tuy nhiên, cá nhân thấy trong hầu hết các Procedure **** được cung cấp trong Technique thường là chung chung để thực hành mô phỏng kẻ tấn công lúc này ta sẽ tìm tới sự trợ giúp của GG thần trưởng ^^
 
@@ -148,19 +148,19 @@ Thông tin này có thể có giá trị để tái tạo một sự cố bằng
 
 Phần này mô tả phương án giảm thiểu (Hardening) để hạn chế hệ thống bị khai thác bằng Technique này.
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%2014.png)
+![Mitre 15]({{site.url}}/assets/img/2024/04/25/15-mitre.png)
 
 ### **2.3.6. Detection (DS)**
 
 Cung cấp các thông tin về phương án phát hiện (Detect) Technique này. Hãy chú ý vào phần Source ~ nguồn mà ta có thể lấy thông tin Detect
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%2015.png)
+![Mitre 16]({{site.url}}/assets/img/2024/04/25/16-mitre.png)
 
 # **3. Groups (G)**
 
 Attacker thường hoạt động theo tổ chức do vậy được phân nhóm (dựa trên một số các dấu hiệu riêng biệt VD: Technique) và được theo dõi bằng một tên chung trong cộng đồng an ninh. Hiện tại, có 133 nhóm trong Framework MITRE ATT&CK
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%2016.png)
+![Mitre 17]({{site.url}}/assets/img/2024/04/25/17-mitre.png)
 
 Với từng Group cũng liệt kê Meta data của Group. Các Technique, Software hay sử dụng bởi nhóm
 
@@ -172,7 +172,7 @@ Cũng như các đối tượng khác. Software cũng có các thông tin Metada
 
 Đồng thời cung cấp đường đẫn tới trang chủ hoặc link download Software
 
-![Untitled](MITRE%20ATT&CK%20FRAMEWORK%20Hu%CC%9Bo%CC%9B%CC%81ng%20da%CC%82%CC%83n%20cho%20ngu%CC%9Bo%CC%9B%CC%80i%209729313086e14f1097c62c132dac65cf/Untitled%2017.png)
+![Mitre 18]({{site.url}}/assets/img/2024/04/25/18-mitre.png)
 
 # **5. Khác MITRE ATT&CK**
 
