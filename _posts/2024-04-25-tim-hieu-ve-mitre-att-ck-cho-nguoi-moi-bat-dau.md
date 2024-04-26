@@ -7,14 +7,15 @@ tags: ['Kubernetes']
 image: assets/img/2024/04/25/0-intro-mitre.jpeg
 ---
 
+>Ngoại trừ các câu hỏi liên quan tới bản thân như "Tối nay ăn gì" là những câu hỏi khó trả lời nhất, còn hầu hết trong công việc những gì ta làm thì đã có người làm rồi việc chỉ là tìm nguồn tham khảo và làm lại **theo** sao cho tốt hơn (~ có phần sáng tạo của mình trong đó) mà thôi! 
 
-Hướng dẫn này được thiết kế để bạn có được một hiểu biết toàn diện về Khung cơ sở dữ liệu MITRE ATT&CK và khám phá cách bạn có thể áp dụng nó cho tổ chức của mình.
+Anh em làm liên quan tới ATTT chắc đều đã nghe về MITRE ATT&CK Framework. Nhưng cá nhân khi vào trang chủ của Project này tôi cũng thấy khá rối mắt, cái này link với cái kia luẩn qua luẩn quẩn không biết bắt đầu tìm hiểu từ đâu. Bài viết này này được thiết kế để bạn có được một hiểu biết có hệ thống và toàn diện về MITRE ATT&CK Framework. Tôi nghĩ nó là một điểm khởi đầu tốt giúp bạn khám phá và áp dụng nó cho tổ chức của mình.
 
 ![Mitre 01]({{site.url}}/assets/img/2024/04/25/1-mitre.png)
 
 # **1. Introduction**
 
-Nhà tội phạm học nổi tiếng Edmond Locard đã áp dụng nguyên lý "Mỗi tiếp xúc đều để lại dấu vết", nguyên lý này cũng được áp dụng vào tội phạm mạng. Tương tự như bất kỳ tội phạm nào khác, kẻ thù dù thế nào cũng chắc chắn sẽ để lại dấu vết sau mỗi cuộc tấn công mạng và mỗi dấu vết này được gọi là **Indicator of Compromise** (IoC). Một IoC là một bằng chứng cho thấy một cuộc tấn công mạng đã xảy ra.
+Nhà tội phạm học nổi tiếng Edmond Locard đã áp dụng nguyên lý "Mỗi tiếp xúc đều để lại dấu vết", nguyên lý này cũng được áp dụng vào tội phạm mạng. Tương tự như bất kỳ tội phạm nào khác, kẻ tấn công (attacker) thế nào cũng chắc chắn sẽ để lại dấu vết sau mỗi cuộc tấn công mạng và mỗi dấu vết này được gọi là **Indicator of Compromise** (IoC). Một IoC là một bằng chứng cho thấy một cuộc tấn công mạng đã xảy ra.
 
 Các IoC cung cấp thông tin quý giá về những gì đã xảy ra, chuẩn bị cho các bên phòng thủ trong các cuộc tấn công tương lai, và giúp ngăn chặn & phát hiện và phản ứng lại các cuộc tấn công tương tự. Tuy nhiên, các IoC không có cùng mức độ quan trọng, một số loại quan trọng hơn nhiều so với các loại khác. Do sự khác biệt giữa các chỉ số đã dẫn đến nhu cầu về một hệ thống phân loại.
 
@@ -118,7 +119,7 @@ Một vài trường thường có trong meta data bao gồm:
 - Data Sources: Nơi có thể thu thập IoC để phát hiện việc sử dụng kỹ thuật
 - Defense Bypassed: Quy thuật bypass tránh bị phát hiện
 - Impact Type: Impact trong t/h kỹ thuật được sử dụng. VD: ảnh hưởng đến **availability** hay **integrity**
-- CAPEC ID: ID định danh duy nhất của một mẫu tấn công trong CAPEC. Về CAPEC là một dự án khác của Mitre mô tả về các lỗi cách khai thác và khắc phục theo từng ngôn ngữ. Xem chi tiết [tại đây]([https://cwe.mitre.org/index.html](https://cwe.mitre.org/index.html))*
+- CAPEC ID: ID định danh duy nhất của một mẫu tấn công trong CAPEC. Về CAPEC là một dự án khác của Mitre mô tả về các lỗi cách khai thác và khắc phục theo từng ngôn ngữ. Xem chi tiết [tại đây]([https://cwe.mitre.org/index.html](https://cwe.mitre.org/index.html))
 
 *Một số trường mở rộng khác như: Contributors, Version, Created, Last Modified*
 
