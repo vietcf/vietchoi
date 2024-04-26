@@ -33,9 +33,40 @@ Chúng ta chia ra Control Plane phần nằm trên Controller Node và các Data
 
 Kubernetes API là một HTTP RESTful API. Được Expose trên Control Node chạy service kube-api-server. HTTP API này được End User và các thành phần khác trong hoặc ngoài cụm Kubernetes giao tiếp với cụm. 
 
+>Áp dụng: Như vậy chất các tool client như **kubectl** sau khi đọc các file yaml sẽ gọi ra các API để tạo ra các tài nguyên tương ứng trên cụm Kubernetes mà thôi!
+
 ![kube-02]({{site.url}}/assets/img/2024/04/22/2-kube.png)
 
-API này hỗ trợ việc duyệt (retrieve), tạo (create), sửa (update) và xóa (delete) các kubernetes resource thông qua chuẩn HTTP verbs (POST, PUT, PATCH, DELETE, GET). Dĩ nhiên để thực hiện các việc này cần thông qua các bước Xác thực và kiểm tra phân quyền.
+API này hỗ trợ việc duyệt (retrieve), tạo (create), sửa (update) và xóa (delete) các kubernetes resource thông qua chuẩn HTTP verbs (POST, PUT, PATCH, DELETE, GET). Dĩ nhiên để thực hiện các việc này cần thông qua các bước Authentication; Authorization; Admission control (Xử lý trùng lặp, sửa req VD: Thêm tag) và cả Logging.
+
+Sẽ mô tả *Sơ qua* về 2 quá trình quan trọng nhất là Authentication và Authorization bên dưới. Có thời gian sẽ mô tả chi tiết sau. Ở đây tạm hình dung là thế.
+
+## Quá trình Authentication:
+Kubernetes clusters chia ra 2 category users: 
+- service account: Các user quản lý bởi cụm Kubernetes Cluster phục vụ cho hoạt động bên trong của cụm
+- normal users: User bên ngoài connect vào cụm (Bao gồm User quản trị hoặc hệ thống bên thứ 3 tích hợp vào)
+
+Việc xác thực của Kubernetes được quản lý bằng authentication module bao gồm một số authentication plugins hỗ trợ các phương thức xác thực sau:
+
+- Static Token file.
+- X.509 certificates.
+- Open ID Connect.
+- Authentication proxy.
+- Webhook
+
+![kube-03]({{site.url}}/assets/img/2024/04/22/3-kube.png)
+
+## Quá trình Authorization
+
+Về phần Authorization, Kubernetes triển khai theo mô hình Role-based Access Control - RBAC để bảo vệ các resources trong cụm.
+
+User được cấp quyền truy cập vào các API Endpoint duyệt (retrieve), tạo (create), sửa (update) và xóa (delete) các resource trong cụm
+
+Để quản lý quyền truy cập vào API, Kubernetes nhóm các quyền vào các Role và các ClusterRole. Role xác định trong scope là Namespace, còn ClustersRoles trong scope của toàn Cluster
+
+Mối liên kết giữa identities (users or workload) và các permissions (Role and ClusterRoles) được định nghĩa bằng cách sử dụng bindings (Liên kết) mô tả bằng hình sau:
+
+![kube-03]({{site.url}}/assets/img/2024/04/22/4-kube.png)
 
 ## Thử gọi API của Kubernetes
 
