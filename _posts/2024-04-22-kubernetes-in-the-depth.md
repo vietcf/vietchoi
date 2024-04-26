@@ -33,7 +33,7 @@ Chúng ta chia ra Control Plane phần nằm trên Controller Node và các Data
 
 Kubernetes API là một HTTP RESTful API. Được Expose trên Control Node chạy service kube-api-server. HTTP API này được End User và các thành phần khác trong hoặc ngoài cụm Kubernetes giao tiếp với cụm. 
 
-![mitre-02]({{site.url}}/assets/img/2024/04/25/2-mitre.png)
+![mitre-02]({{site.url}}/assets/img/2024/04/22/1-Kubernetes-authen-author-01.png)
 
 API này hỗ trợ việc duyệt (retrieve), tạo (create), sửa (update) và xóa (delete) các kubernetes resource thông qua chuẩn HTTP verbs (POST, PUT, PATCH, DELETE, GET). Dĩ nhiên để thực hiện các việc này cần thông qua các bước Xác thực và kiểm tra phân quyền.
 
