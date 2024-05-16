@@ -59,21 +59,33 @@ Hoặc có thể sử dụng các công cụ kiểm tra các process Linux để
 
 # Các cách tương tác với Container process
 
-Bây giờ chúng ta biết rằng ở góc độ hệ điều hành, các container chỉ là các process - nhưng điều đó sẽ giúp gì cho chúng ta khi muốn tương tác với chúng? Việc có thể tương tác với chúng hữu ích cả trong việc khắc phục sự cố vận hành của chúng và điều tra các thay đổi trong các container đang chạy. Có một vài điều cần nhớ ở đây, nhưng điều đầu tiên là chúng ta có thể sử dụng hệ thống tệp /proc để có được thông tin chi tiết hơn về các container đang chạy trên hệ thống.
+Theo giải thích ở trên, chúng ta biết rằng ở góc độ hệ điều hành các container cũng chỉ là các process thông thường như bao process khác. Hiểu được điều này sẽ giúp gì cho chúng ta rất nhiều khi muốn tương tác với chúng? Việc có thể tương tác với các process này hữu ích cả trong việc khắc phục sự cố vận hành cũng điều tra các thay đổi trong các container đang chạy. Có một vài điểm cần nhớ ở đây, đầu tiên là chúng ta có thể sử dụng hệ thống tệp /proc để có được thông tin chi tiết hơn về các container đang chạy trên hệ thống.
 
-Hệ thống tệp tin (filesystem) /proc trong Linux là một hệ thống tệp ảo (virtual filesystem) hoặc giả ảo (pseudo filesystem) vì nó không chứa các tệp tin thực sự lưu trên ổ đĩa - thay vào đó, nó giúp cung cấp thông tin về hệ thống đang chạy. Miễn là một người dùng (user) có các quyền đặc quyền phù hợp trên một máy chủ chạy Docker thì họ có thể sử dụng /proc để truy cập thông tin về bất kỳ container nào đang chạy trên máy chủ.
+Hệ thống tệp tin (filesystem) /proc trong Linux là một hệ thống tệp ảo (virtual filesystem), nói là ảo vì nó hoàn toàn không chứa các tệp tin thực sự lưu trên ổ đĩa mà thay vào đó nó giúp cung cấp thông tin về hệ thống đang chạy. Một người dùng (user) có các quyền đặc quyền phù hợp trên một máy chủ chạy Docker hoàn toàn có thể sử dụng /proc để truy cập thông tin của bất kỳ container nào đang chạy trên máy chủ.
 
-Hãy xem một số thông tin về container NGINX chúng ta đã khởi động trước đó. Trên hệ thống thử nghiệm mà  tôi đang sử dụng, ta có thể thấy rằng ID tiến trình của nginx là **2336**. Nếu chúng ta liệt kê các tệp trong /proc, chúng ta sẽ thấy mỗi thư mục được đánh số tương ứng với mỗi tiến trình trên máy chủ, bao gồm cả tiến trình NGINX của chúng ta. Trong các thư mục này chứa một loạt các tệp và thư mục với thông tin về tiến trình đó, điều này có nghĩa là chúng ta có thể đi vào thư mục 2336 để tìm hiểu thêm về tiến trình của chúng ta.
+Bây giờ hãy áp dụng để xem một số thông tin về container NGINX chúng ta đã khởi động trước đó. Trên hệ thống thử nghiệm mà tôi đang sử dụng, có thể thấy rằng ID tiến trình của nginx là **83675**. 
 
-Việc này có thể hữu ích khi sử dụng các công cụ Linux để làm việc với các container đã được hardening ~ loại bỏ các công cụ như file editor hoặc process manager. Việc hardening image của container là một khuyến nghị bảo mật nên thực hiện, nhưng điều này làm cho việc debug/troubleshoot trở nên khó khăn hơn. Ta có thể chỉnh sửa các tệp bên trong container bằng cách truy cập vào hệ thống tệp gốc của container từ thư mục /proc trên máy chủ. Đi tới /proc/[PID]/root sẽ cho bạn danh sách thư mục của tiến trình chứa có PID đó.
+![ngix tree]({{site.url}}/assets/img/2024/05/08/4-nginx-pstree.png)
 
-Trong trường hợp này, chạy sudo ls /proc/2336/root sẽ cho ta kết quả là một danh sách trông giống như sau:
+Nếu chúng ta liệt kê các tệp trong /proc, chúng ta sẽ thấy mỗi thư mục được đánh số tương ứng với mỗi tiến trình trên máy chủ, bao gồm cả tiến trình NGINX của chúng ta. Trong các thư mục này chứa một loạt các tệp và thư mục với thông tin về tiến trình đó, điều này có nghĩa là chúng ta có thể đi vào thư mục 2336 để tìm hiểu thêm về tiến trình của chúng ta.
+
+![proc]({{site.url}}/assets/img/2024/05/08/4-proc.png)
+
+Việc này có thể hữu ích khi sử dụng các công cụ Linux để làm việc với các container đã được hardening ~ loại bỏ các công cụ như file editor hoặc process manager. Việc hardening image của container là một khuyến nghị bảo mật nên thực hiện, nhưng điều này làm cho việc debug/troubleshoot trở nên khó khăn hơn so với debug trên host linux thông thường. Ta có thể chỉnh sửa các tệp bên trong container bằng cách truy cập vào hệ thống tệp gốc của container từ thư mục /proc trên máy chủ. Đi tới /proc/[PID]/root sẽ cho bạn danh sách thư mục của tiến trình chứa có PID đó. Trong trường hợp này, chạy ```sudo ls /proc/83675/root``` sẽ cho ta kết quả là một danh sách trông giống như sau:
+
+![proc root]({{site.url}}/assets/img/2024/05/08/4-pstree-nginx-root.png)
 
 Bây giờ, nếu chúng ta sử dụng lệnh touch để thêm một tệp vào thư mục này, chúng ta có thể xác nhận rằng nó đã được thêm bằng cách sử dụng lệnh docker exec để liệt kê các tệp trong container. Kỹ thuật này có thể được sử dụng để thực hiện các thao tác như chỉnh sửa các tệp cấu hình trong các container từ máy chủ.
 
+![proc root touch]({{site.url}}/assets/img/2024/05/08/4-pstree-nginx-root-touch.png)
+
 Và đây là một lợi ích khác của việc nhìn các container là process thông thường: Chúng ta có thể sử dụng các công cụ ở mức máy chủ để kill các process mà không cần sử dụng các công cụ của container. Điều này có thể không phải là cách hay, nên sử dụng trong các trường hợp thông thường, vì nó có thể ảnh hưởng đến các chính sách như Docker restart policy, nhưng có thể có những lúc cần thiết sử dụng.
 
-Ví dụ: Hãy kill container NGINX của ta bằng cách sử dụng lệnh sudo kill 2336. Sau đó, chúng ta có thể chạy docker ps để xác nhận rằng container của chúng ta không còn tồn tại nữa.
+Ví dụ: Hãy kill container NGINX của ta bằng cách sử dụng lệnh sudo kill 83675. Sau đó, chúng ta có thể chạy docker ps để xác nhận rằng container của chúng ta không còn tồn tại nữa.
+
+
+![proc root kill]({{site.url}}/assets/img/2024/05/08/4-pstree-nginx-root-kill.png)
+
 
 # Những thông tin trên có ích gì cho security cho docker?
 
