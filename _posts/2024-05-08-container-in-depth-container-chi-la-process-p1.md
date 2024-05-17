@@ -65,7 +65,7 @@ Hệ thống tệp tin (filesystem) /proc trong Linux là một hệ thống t�
 
 Bây giờ hãy áp dụng để xem một số thông tin về container NGINX chúng ta đã khởi động trước đó. Trên hệ thống thử nghiệm mà tôi đang sử dụng, có thể thấy rằng ID tiến trình của nginx là **83675**. 
 
-![ngix tree]({{site.url}}/assets/img/2024/05/08/4-nginx-pstree.png)
+![ngix tree]({{site.url}}/assets/img/2024/05/08/4-pstree-nginx.png)
 
 Nếu chúng ta liệt kê các tệp trong /proc, chúng ta sẽ thấy mỗi thư mục được đánh số tương ứng với mỗi tiến trình trên máy chủ, bao gồm cả tiến trình NGINX của chúng ta. Trong các thư mục này chứa một loạt các tệp và thư mục với thông tin về tiến trình đó, điều này có nghĩa là chúng ta có thể đi vào thư mục 2336 để tìm hiểu thêm về tiến trình của chúng ta.
 
