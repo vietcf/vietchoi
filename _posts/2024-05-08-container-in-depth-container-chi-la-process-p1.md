@@ -67,7 +67,7 @@ Bây giờ hãy áp dụng để xem một số thông tin về container NGINX 
 
 ![ngix tree]({{site.url}}/assets/img/2024/05/08/4-pstree-nginx.png)
 
-Nếu chúng ta liệt kê các tệp trong /proc, chúng ta sẽ thấy mỗi thư mục được đánh số tương ứng với mỗi tiến trình trên máy chủ, bao gồm cả tiến trình NGINX của chúng ta. Trong các thư mục này chứa một loạt các tệp và thư mục với thông tin về tiến trình đó, điều này có nghĩa là chúng ta có thể đi vào thư mục 2336 để tìm hiểu thêm về tiến trình của chúng ta.
+Nếu chúng ta liệt kê các tệp trong /proc, chúng ta sẽ thấy mỗi thư mục được đánh số tương ứng với mỗi tiến trình trên máy chủ, bao gồm cả tiến trình NGINX của chúng ta. Trong các thư mục này chứa một loạt các tệp và thư mục với thông tin về tiến trình đó, điều này có nghĩa là chúng ta có thể đi vào thư mục **83675** để tìm hiểu thêm về tiến trình của chúng ta.
 
 ![proc]({{site.url}}/assets/img/2024/05/08/4-proc.png)
 
@@ -81,7 +81,7 @@ Bây giờ, nếu chúng ta sử dụng lệnh touch để thêm một tệp và
 
 Và đây là một lợi ích khác của việc nhìn các container là process thông thường: Chúng ta có thể sử dụng các công cụ ở mức máy chủ để kill các process mà không cần sử dụng các công cụ của container. Điều này có thể không phải là cách hay, nên sử dụng trong các trường hợp thông thường, vì nó có thể ảnh hưởng đến các chính sách như Docker restart policy, nhưng có thể có những lúc cần thiết sử dụng.
 
-Ví dụ: Hãy kill container NGINX của ta bằng cách sử dụng lệnh sudo kill 83675. Sau đó, chúng ta có thể chạy docker ps để xác nhận rằng container của chúng ta không còn tồn tại nữa.
+Ví dụ: Hãy kill container NGINX của ta bằng cách sử dụng lệnh ```sudo kill 83675```. Sau đó, chúng ta có thể chạy docker ps để xác nhận rằng container của chúng ta không còn tồn tại nữa.
 
 
 ![proc root kill]({{site.url}}/assets/img/2024/05/08/4-pstree-nginx-root-kill.png)
@@ -89,13 +89,15 @@ Ví dụ: Hãy kill container NGINX của ta bằng cách sử dụng lệnh sud
 
 # Những thông tin trên có ích gì cho security cho docker?
 
-Như đã nói từ đầu rất nhiều “Container chỉ là các process”, điều này cũng mang lại nhiều hệ quả liên quan tới security.
+Trong suốt bài viết nhai đi nhai lại câu "Container cũng chỉ là các process thông thường", điều này cũng mang lại nhiều hệ quả liên quan tới vấn đề security.
 
-Trước tiên, ta cần phải tính đến việc bất kỳ ai có quyền truy cập vào máy chủ cơ bản đều có thể sử dụng danh sách tiến trình (process lists) để xem thông tin về các container đang chạy — ngay cả khi họ không thể trực tiếp truy cập vào các công cụ như Docker.”
+Trước tiên, ta cần phải tính đến việc bất kỳ ai có quyền truy cập vào máy chủ cơ bản đều có thể sử dụng danh sách tiến trình chạy trên máy chủ (process lists) để xem thông tin về các container đang chạy — ngay cả khi họ không thể trực tiếp truy cập vào các công cụ như Docker.
 
-Một ví dụ điển hình về điều này là sử dụng công cụ Linux để truy cập vào các biến môi trường (env) của container, thường lưu trữ thông tin bí mật (secret). Người dùng có quyền truy cập vào máy chủ cơ bản có thể đọc nội dung của tệp environ bên trong khu vực tiến trình trong /proc để xem thông tin đó, như được minh họa dưới đây trong một ví dụ khi một container được khởi động với một biến môi trường là “TOP_SECRET=API_KEY”
+Một ví dụ điển hình về điều này là sử dụng công cụ Linux để truy cập vào đọc các file của container, đặc biệt là các file cấu hình lưu thông tin bí mật (secret) như token, secret key, password, ... Người dùng có quyền truy cập vào máy chủ host nếu có quyền cơ bản có thể sử dụng thư mục /proc để xem nội dung các file này. 
 
-Một hệ quả khác là chúng ta có thể sử dụng các công cụ bảo mật Linux hiện có để tương tác với các container. Chúng ta sẽ thấy các ví dụ về điều này trong các bài sau của loạt bài này, nhưng cho đến nay, chúng ta đã chỉ ra rằng có thể kiểm tra hệ thống tệp gốc của một container và các đặc điểm khác thông qua /proc. Điều này có thể rất hữu ích để điều tra các hành động đã được thực hiện, chẳng hạn như xem các tệp mà một kẻ tấn công đã thêm vào một container.
+![proc file]({{site.url}}/assets/img/2024/05/08/5-read-file-secret.png)
+
+Một hệ quả khác là chúng ta có thể sử dụng các công cụ bảo mật Linux hiện có để tương tác với các container. Việc này sẽ phân tích chi tiết trong các bài sau của loạt bài này. Tuy nhiên đến thời điểm hiện tại chúng ta đã chỉ ra rằng có thể kiểm tra hệ thống tệp tin bên trong của một container thông qua thư mục /proc. Điều này có thể rất hữu ích để điều tra các hành động đã được thực hiện, chẳng hạn như xem các tệp mà một kẻ tấn công đã thêm vào một container.
 
 # Tham khảo
 
