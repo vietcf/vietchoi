@@ -39,9 +39,9 @@ Sau đó gom lại các kết quả đã xử lý bằng một result_all
 ```
 result_all = result1 + result2 + result3 + result4
 ```
-Nhưng khi in in ra result_all kết quả lại hoàn toàn không như mong mốn. Quay lại debug nhận ra rằng sự có mặt của các result nó lại làm ảnh hưởng tới kết quả In ra :). Ví dụ nếu chạy functionResult1 => functionResult2 thì giá trị dòng result3 lại khác khi chỉ chạy dòng result3 **bỏ qua functionResult1 và functionResult2**.
+Nhưng khi in in ra result_all kết quả lại hoàn toàn không như mong mốn. Quay lại debug tôi nhận ra rằng việc sử dụng ít hay nhiều functionResultX  nó lại làm ảnh hưởng tới kết quả In ra :). Ví dụ nếu chạy functionResult1 => functionResult2 thì giá trị của result3 lại khác khi chỉ chạy functionResult3 mà **bỏ qua functionResult1 và functionResult2**.
 
-Sau một thời gian tìm kiếm tôi nhận ra rằng mình trong functionResult<N> cá nhân lại thản nhiên loop và sửa lại phần tử của array_result_all dẫn đến Dữ liệu gốc của array_result_all sau mỗi khi thực hiện functionResult<N> lại bị thay đổi làm cho các functionResult<N+1> sau đó nhận vào một mảng array_result_all không còn "Nguyên vẹn" như ban đầu => Sai lệch kết quả mong muốn.
+Sau một thời gian tìm kiếm tôi nhận ra rằng trong functionResult<N> tôi lại thản nhiên loop và sửa lại phần tử của array_result_all dẫn đến Dữ liệu gốc của array_result_all sau mỗi khi thực hiện functionResult<N> lại bị thay đổi làm cho các functionResult<N+1> sau đó nhận vào một mảng array_result_all không còn **"Nguyên vẹn"** như ban đầu => Sai lệch kết quả mong muốn.
 
 
 ## Phương án xử lý,
