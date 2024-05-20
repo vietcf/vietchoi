@@ -7,7 +7,15 @@ tags: ['python']
 image: assets/img/2024/05/20/1-reference-intro.png
 ---
 
-Mất mấy ngày để debug mới tìm ra nguyên nhân chỉ vì sơ ý trong việc xử lý việc truyền vào hàm (function) Python một tham chiếu :)
+Mất mấy ngày để debug mới tìm ra nguyên nhân chỉ vì sơ ý trong việc trong quá trình xử lý truyền vào hàm (Function) Python một tham chiếu (Reference) :)
+
+
+## Quay lại cơ bản,
+
+Ai đã lập trình chắc không lạ gì về tham chiếu (Reference)
+
+![Reference]({{site.url}}/assets/img/2024/05/20/2-reference.png)
+
 
 ## Mô tả lại lỗi ngờ nghệch
 
