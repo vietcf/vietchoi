@@ -37,7 +37,7 @@ Chúng ta có thể sử dụng lệnh `lsns` để xem các Namespaces trên m�
 
 ![lsns level]({{site.url}}/assets/img/2024/05/17/1-namespace-list.png)
 
-Trường "NPROCS" cho thấy rằng có 261 process đang sử dụng Namespaces đầu tiên trên máy chủ này. Chúng ta cũng có thể thấy rằng một số process đã được gán cho các Namespace riêng của chúng (thường là mnt hoặc uts). Những process này hoàn toàn không được khởi tạo bởi Docker, tuy nhiên chúng đang sử dụng các Namespace nhất định để cách ly tài nguyên của riêng chúng với các process khác trên hệ thống.
+Trường "NPROCS" cho thấy rằng có 261 process đang sử dụng Namespaces đầu tiên trên máy chủ này. Ta cũng có thể thấy rằng một số process đã được gán cho các Namespace riêng của chúng (thường là mnt hoặc uts). Những process này hoàn toàn không được khởi tạo bởi Docker, tuy nhiên chúng đang sử dụng các Namespace nhất định để cách ly tài nguyên của riêng chúng với các process khác trên hệ thống.
 
 Sau khi sử dụng Docker để khởi động một container mới bằng lệnh ```docker run -d nginx```, chạy lại sudo lsns sẽ hiển thị các Namespaces mới cho các process NGINX. Theo mặc định, Docker sử dụng các Namespace  mnt, uts, ipc, pid, và net khi tạo một container.
 
@@ -49,15 +49,15 @@ Mỗi namespace này cung cấp một mức độ cô lập khác nhau và có t
 
 Mount Namespaces (mnt) cung cấp cho một process một View cô lập về hệ thống tập tin (filesystem ). Điều này để đảm bảo rằng một (/nhóm) process sẽ được sở hữu một filesystem riêng nó và không can thiệp vào các filesystem thuộc về các tiến trình khác cũng như hệ thống tệp tin của máy chủ Host. Khi sử dụng mnt Namespaces, một tập hợp các filesystem mounts point mới được cung cấp cho process thay cho các filesystem mounts point mà nó nhận được theo mặc định.
 
-Chúng ta có thể xem các Mount Namespaces nào được sử dụng bởi process bằng xem trong thư mục /proc/[PID]; thông tin này nằm trong /proc/[PID]/mountinfo. 
+Ta có thể xem các Mount Namespaces nào được sử dụng bởi process bằng xem trong thư mục /proc/[PID]; thông tin này nằm trong /proc/[PID]/mountinfo. 
 
 ![proc nginx]({{site.url}}/assets/img/2024/05/17/2-namespace-mnt-1.png)
 
-Hoặc chúng ta cũng có thể sử dụng một công cụ như findmnt, công cụ này sẽ cung cấp một phiên bản được định dễ nhìn hơn rất nhiều. Khi sử dụng các công cụ này, trước tiên chúng ta cần tìm ID tiến trình của container. Một cách để làm điều này là sử dụng lệnh inspect của Docker. ```docker inspect -f '{{.State.Pid}}' [CONTAINER]``` sẽ trả về thông tin PID. Sau đó chúng ta chạy lệnh findmnt -N [PID] để lấy thông tin các mount point.
+Hoặc ta cũng có thể sử dụng một công cụ như findmnt, công cụ này sẽ cung cấp một phiên bản được định dễ nhìn hơn rất nhiều. Khi sử dụng các công cụ này, trước tiên ta cần tìm ID tiến trình của container. Một cách để làm điều này là sử dụng lệnh inspect của Docker. ```docker inspect -f '{{.State.Pid}}' [CONTAINER]``` sẽ trả về thông tin PID. Sau đó ta chạy lệnh findmnt -N [PID] để lấy thông tin các mount point.
 
 ![findmnt nginx]({{site.url}}/assets/img/2024/05/17/2-namespace-mnt-0.png)
 
-Trong ảnh chụp màn hình phía trên, chúng ta có thể thấy rằng Container của chúng ta có thư mục gốc / được mount vào một thư mục nằm trong /var/lib/docker - nơi Docker lưu trữ tất cả các image và container filesystem.
+Trong ảnh chụp màn hình phía trên, ta có thể thấy rằng Container của ta có thư mục gốc / được mount vào một thư mục nằm trong /var/lib/docker - nơi Docker lưu trữ tất cả các image và container filesystem.
 
 Một điểm quan trọng liên quan đến bảo mật cần nhớ là tất cả các hệ thống tập tin gốc / được sử dụng bởi các Container trên máy chủ sẽ nằm trong một thư mục được quản lý runtime process gốc của container (/var/lib/docker/ theo mặc định). Vì vậy, cần đảm bảo rằng quyền truy cập vào thư mục này được kiểm soát chặt chẽ và nó đang được giám sát để phát hiện các truy cập trái phép.
 
@@ -69,24 +69,28 @@ Chắc hẳn chúng đều biết mỗi process trên linux có một *process I
 
 *PID namespaces isolate the process ID number space, meaning that processes in different PID namespaces can have the same PID ~ Đoạn này tạm hiểu là các process ở các namespace khác nhau hoàn toàn có cùng PID*
 
-Việc có “không gian” PID khác nhau là quan trọng vì trên một Host linux thông thường ta biết rằng hai process không thể có cùng một PID. Nếu chỉ xem xét một hệ thống đơn lẻ tất nhiên không thể xảy ra xung đột về PID vì hệ thống liên tục tăng số ID của tiến trình lên và không bao giờ gán cùng một số PID hai cho 2 process. Tuy nhiên khi xử lý các container trên nhiều host, vấn đề này trở nên phức tạp hơn. Như mô tả trong man page:
+Việc có “không gian” PID khác nhau là quan trọng vì trên một linux Host thông thường ta biết rằng hai process không thể có cùng một PID. Nếu chỉ xem xét một hệ thống đơn lẻ tất nhiên không thể xảy ra xung đột về PID vì hệ thống liên tục tăng số ID của tiến trình lên và không bao giờ gán cùng một số PID hai cho 2 process. Tuy nhiên khi xử lý các container trên nhiều host, vấn đề này trở nên phức tạp hơn. Như mô tả trong man page:
 
 *PID namespaces allow containers to provide functionality such as suspending/resuming the set of processes in the container and migrating the container to a new host while the processes inside the container maintain the same PIDs. ~ Khi một container được migrate giữa 2 Host muốn bảo toàn PID và không gây xung đột với PID trên hệ thống đích thì rõ ràng cần một PID namespace riêng biệt.*
 
-Ngoài ý nghĩa kể trên, việc isolation các PID namespace giúp cho các tiến trình trong namespace có cơ chế hoạt động tương tự như PID của host ~ Nói chung các nhà phát triển linux họ thích vậy, cái project namespace là họ muốn tái hiện một space cho một (/nhóm) process với cấu trúc tương tự Host chủ. Các PID bên trong namespace mới tạo ra sẽ bắt đầu từ 1 và nó là PID của process đầu tiên ~ process init. Dĩ nhiên từng namespace các process init này luôn có ID bằng 1 và phải hoàn toàn độc lập với nhau cũng như độc lập với PID init process của Host. Và để làm được điều này rõ ràng là cần phải có một cơ chế như mô tả của PID namespace nhắc tới ở trên rồi.
+Ngoài ý nghĩa kể trên, việc isolation các PID namespaces giúp cho các tiến trình trong một Namespace có cơ chế hoạt động tương tự như PID của Host ~ Nói chung các nhà phát triển linux họ thích vậy, cái project namespace là họ muốn tái hiện một space cho một (/nhóm) process với cấu trúc tương tự Host chủ. Các PID bên trong namespace mới tạo ra sẽ bắt đầu từ 1 và nó là PID của process đầu tiên ~ process init. Dĩ nhiên với từng namespace các process init này luôn có PID=1 và phải hoàn toàn độc lập với nhau cũng như độc lập với PID init process của Host. Và để làm được điều này rõ ràng là cần phải có một cơ chế như mô tả của PID namespace nhắc tới ở trên rồi.
 
-Cần chú ý rằng là là bất kỳ tiến trình nào có PID 1 đều quan trọng đối với sự tồn tại của namespace. Nếu PID 1 bị exit vì bất kỳ lý do nào, kernel sẽ gửi một tín hiệu **SIGKILL** đến tất cả các tiến trình còn lại trong namespace đó, kết quả là  namespace bị shutting down.
+Cần chú ý rằng là là bất kỳ tiến trình nào có PID=1 đều quan trọng đối với sự tồn tại của namespace. Nếu Process có PID=1 bị exit vì bất kỳ lý do nào, kernel sẽ gửi một tín hiệu **SIGKILL** đến tất cả các tiến trình còn lại trong namespace đó, kết quả là  namespace bị shutting down.
 
-Để kiểm chứng điều này chúng ta  có thể sử dụng **nsenter** để hiển thị danh sách các process đang chạy bên trong một Container. Để làm điều này, chúng ta sẽ cần có một Container image có chứa chương trình ps. Sau đó truyền vào PID của container vào nsenter và chạy lệnh ps để xem các process đang chạy bên trong Container. Ở đây ta sẽ sử dụng busybox image chạy như một container với lệnh docker run --name busyback -d busybox top (điều này để lệnh top chạy trong container không bị thoát). Sau đó, chúng ta sẽ sử dụng docker inspect để lấy PID của container của chúng ta và sử dụng nsenter để kiểm tra danh sách tiến trình bên trong container, như được hiển thị dưới đây. Điều này cho phép chúng ta nhìn thấy tiến trình top của chúng ta đang chạy.
+Để kiểm chứng điều này ta có thể sử dụng **nsenter** để hiển thị danh sách các process đang chạy bên trong một Container. Ta cần có một Container image có binary của trương trình (lệnh) ps. Sau đó truyền vào PID và mnt namespace của container cần chạy lệnh ps. Ở đây tôi sử dụng busybox image chạy như một Container ở background với lệnh ```docker run --name busyback -d busybox top``` (Chạy lệnh top trong container để nó không bị Exit). Sau đó, ta sẽ sử dụng ```docker inspect``` để lấy PID của Container của ta, sau đó sử dụng nsenter để kiểm tra danh sách tiến trình bên trong Container. Kết quả được hiển thị dưới đây. Kết quả cho phép ta nhìn thấy tiến trình top của ta đang chạy.
+
+![pid ns 0]({{site.url}}/assets/img/2024/05/17/3-pid-namespace-0.png)
+
+Một cách khác để minh họa PID namespace là sử dụng công cụ unshare của Linux để chạy một tập các namespaces. Để thực hiện việc này ta chạy lệnh ```sudo unshare --pid --fork --mount-proc /bin/bash``` . Kết quả của việc thực thi lệnh này là ta sẽ tạo ra một bash shell process trong một PID namespace mới.
+
+![pid ns 1]({{site.url}}/assets/img/2024/05/17/3-pid-namespace-1.png)
+
+Một điểm thú vị là khi hiểu về PID namespace cũng có thể cho phép một Container xem các tiến trình đang chạy trong một Container khác. Tùy chọn --pid trên lệnh docker run cho phép ta start một Container cho mục đích troubleshoot trong PID namespace của một container khác.
+
+Để minh họa điều này, ta sẽ start một container máy chủ web bằng cách chạy lệnh ```docker run -d --name=webserver nginx```. Sau đó ta sẽ bắt đầu một debug container bằng cách chạy lệnh ```docker run -it --name=debug --pid=container:webserver raesene/alpine-containertools /bin/bash```. Nếu sau đó ta chạy lệnh ```ps -ef``` từ container debug vừa được start ta có thể thấy các tiến trình từ container máy chủ web ban đầu cũng như các tiến trình chạy trong debug container.
 
 
-Một cách khác để minh họa PID namespace là sử dụng công cụ unshare của Linux để chạy một tập các namespaces
-
-Chạy lệnh sudo unshare --pid --fork --mount-proc /bin/bash sẽ tạo ra chúng ta một bash shell process trong một PID namespace mới.
-
-Khi chạy các container, việc sử dụng PID namespace cũng có thể hữu ích để xem các tiến trình đang chạy trong một container khác. Tùy chọn --pid trên lệnh docker run cho phép chúng ta start một container cho mục đích gỡ lỗi trong PID namespace của một container khác.
-
-Để minh họa điều này, chúng ta sẽ start một container máy chủ web bằng cách chạy lệnh docker run -d --name=webserver nginx. Sau đó, chúng ta sẽ bắt đầu một debug container bằng cách chạy lệnh docker run -it --name=debug --pid=container:webserver raesene/alpine-containertools /bin/bash. Nếu chúng ta sau đó chạy lệnh ps -ef, chúng ta có thể thấy các tiến trình từ container máy chủ web ban đầu của chúng ta cũng như các tiến trình chạy trong debug container của chúng ta.
+![pid ns 2]({{site.url}}/assets/img/2024/05/17/3-pid-namespace-2.png)
 
 Chia sẻ PID namespace giữa các container cũng có thể được thực hiện trong các cụm Kubernetes, việc này có thể hữu ích để troubleshoot vì cơ bản cơ chế của chúng cũng tương tự ở trên mà thôi. 
 
@@ -98,13 +102,13 @@ Tiếp theo trong danh sách có một namespace khác gọi là **net namespace
 
 Tương tự như các namespace đã được đề cập trước đó, bạn có thể tương tác với **net namespaces** bằng cách sử dụng các công cụ Linux tiêu chuẩn như ```nsenter```. Bước đầu tiên là lấy PID của Container sau đó có thể sử dụng nsenter để xem các thông tin trong  **net namespaces** của Container ví dụ như IP hoặc bảng route một cách dễ dàng.
 
-Một điểm quan trọng ở đây là lệnh ip chúng ta đang chạy là của Host và không cần phải tồn tại bên trong Container. Điều này thuật hữu ích trong trường hợp cần troubleshoot các vấn đề mạng cho các Container không có cài đặt nhiều tool/toy (Do bình thường các image thường được đóng gói cố gắng minimun nhất có thể).
+Một điểm quan trọng ở đây là lệnh ip ta đang chạy là của Host và không cần phải tồn tại bên trong Container. Điều này thuật hữu ích trong trường hợp cần troubleshoot các vấn đề mạng cho các Container không có cài đặt nhiều tool/toy (Do bình thường các image thường được đóng gói cố gắng minimun nhất có thể).
 
 Một phần khác của các công cụ Linux có thể được sử dụng để tương tác với **net namespaces** là lệnh ip thông qua lệnh netns. Lệnh phụ này thường cho phép bạn tương tác với các không gian tên mạng khác nhau trên một hệ thống. Tuy nhiên, lưu ý rằng nó không hoạt động trong Docker vì các liên kết mềm mà netns phụ thuộc vào không tồn tại.
 
-Ta cũng có thể sử dụng Docker để chia sẻ **net namespaces**, tương tự như cách chia sẻ **PID namespaces**. Chúng ta có thể khởi chạy một troubleshoot container, troubeshoot Container này có thể có các công cụ như tcpdump đã được cài đặt và kết nối nó với Net của Container đang chạy.
+Ta cũng có thể sử dụng Docker để chia sẻ **net namespaces**, tương tự như cách chia sẻ **PID namespaces**. Ta có thể khởi chạy một troubleshoot container, troubeshoot Container này có thể có các công cụ như tcpdump đã được cài đặt và kết nối nó với Net của Container đang chạy.
 
-Chạy docker run -it --name=debug-network --network=container:webserver raesene/alpine-containertools /bin/bash sẽ cho phép chúng ta kết nối vào mạng của một container hiện có được gọi là "webserver." Khi nó được khởi chạy, chúng ta có thể chạy netstat -tunap để xem các cổng lắng nghe, và nó sẽ hiển thị máy chủ web đang chạy trên cổng 80 từ container khá
+Chạy docker run -it --name=debug-network --network=container:webserver raesene/alpine-containertools /bin/bash sẽ cho phép ta kết nối vào mạng của một container hiện có được gọi là "webserver." Khi nó được khởi chạy, ta có thể chạy netstat -tunap để xem các cổng lắng nghe, và nó sẽ hiển thị máy chủ web đang chạy trên cổng 80 từ container khá
 
 
 ### Cgroup namespace
@@ -120,4 +124,5 @@ Chạy docker run -it --name=debug-network --network=container:webserver raesene
 # Tham khảo
 
 [https://securitylabs.datadoghq.com/articles/container-security-fundamentals-part-2/](https://securitylabs.datadoghq.com/articles/container-security-fundamentals-part-2/)
+
 [https://www.redhat.com/sysadmin/pid-namespace](https://www.redhat.com/sysadmin/pid-namespace)
