@@ -15,21 +15,17 @@ Ta vẫn hiểu "sơ sơ" máy chủ DNS giúp ta phân giải một tên miền
 ![DNS recursor]({{site.url}}/assets/img/2024/05/30/recursive-resolver.png)
 
 -  **DNS recursor (Hoặc Recursive resolvers)**: Recurive tiếng việt là "Đệ quy". Đúng như cái tên nó **DNS recursor** là điểm dừng đầu tiên trong một truy vấn DNS. **DNS recursor** hoạt động như một trung gian giữa máy khách (Client) và các loại máy chủ DNS khác: Bao gồm gửi yêu cầu tới **Root nameserver** để lấy thông tin địa chỉ của **TLD (Top-Level Domain)** tương ứng với domain truy vấn. Hay **DNS recursor** thực hiện gửi yêu tới máy chủ **TLD (Top-Level Domain)** để lấy thông tin địa chỉ máy chủ **Authoritative nameserver**. **DNS recursor**  cũng thực hiện gửi yêu cầu tới **Authoritative nameserver** để lấy thông tin địa chỉ IP được yêu cầu. Cuối cùng **DNS recursor** tổng hợp các thông tin hoàn thiện gửi phản hồi tới Client.
-
 *Thực tế hầu hết người dùng Internet sử dụng **DNS recursor** do nhà cung cấp dịch vụ Internet (ISP) cung cấp, dĩ nhiên ta cũng có những lựa chọn khác: Ví dụ như 1.1.1.1 của Cloudflare, hoặc 8.8.8.8 của GG.*
 
 - **Root nameserver**: Trên thế giới có 13 máy chủ **Root nameserver**. Thực tế là ngay khi cài đặt địa chỉ của 13 Root nameserver này được fix luôn trong cấu hình của các DNS server. Một máy chủ **Root nameserver** sẽ nhận các truy vấn của các **DNS recursor** và phản hồi lại cho **DNS recursor** địa chỉ của **TLD (Top-Level Domain)** tương ứng dựa trên phần mở rộng của tên miền đó (.com, .net, .org, v.v.). Các máy chủ **Root nameserver** được giám sát bởi một tổ chức phi lợi nhuận gọi là Internet Corporation for Assigned Names and Numbers (ICANN).
-
 *Lưu ý rằng mặc dù trên lý thuyết có 13 Root nameserver nhưng thực tế không có nghĩa là chỉ có 13 Root nameserver duy nhất trên hệ thống DNS. Ngoài 13 Root nameserver  có nhiều bản sao của mỗi Root nameserver trên khắp thế giới, chúng sử dụng định tuyến Anycast để cung cấp phản hồi nhanh chóng. Nếu cộng tất cả các phiên bản của các Root nameserver, bạn sẽ có hơn 600 máy chủ khác nhau.*
 
 
-- **Level Domain nameserver (TLD)**: Top Level Domain Nameserver duy trì thông tin cho tất cả các tên miền có chung phần mở rộng tên miền, chẳng hạn như .com, .net, hoặc bất kỳ phần mở rộng nào sau dấu chấm cuối cùng trong một URL. Ví dụ, một máy chủ TLD nameserver .com chứa thông tin cho mọi trang web kết thúc bằng ‘.com’. Nếu người dùng tìm kiếm google.com, sau khi nhận được phản hồi từ một máy Root nameserver, DNS recursor sẽ gửi một truy vấn đến **Level Domain nameserver** .com. Máy chủ này sẽ phản hồi bằng cách trỏ tới máy chủ **Authoritative nameserver** cho tên miền đó.
+- **Level Domain nameserver (TLD)**: Top Level Domain Nameserver duy trì thông tin cho tất cả các tên miền có chung phần mở rộng tên miền, chẳng hạn như .com, .net, hoặc bất kỳ phần mở rộng nào sau dấu chấm cuối cùng trong một URL. Ví dụ, một máy chủ TLD nameserver .com chứa thông tin cho mọi trang web kết thúc bằng ‘.com’. Nếu người dùng tìm kiếm google.com, sau khi nhận được phản hồi từ một máy Root nameserver, DNS recursor sẽ gửi một truy vấn đến **Level Domain nameserver** .com. Máy chủ này sẽ phản hồi bằng cách trỏ tới máy chủ **Authoritative nameserver** cho tên miền đó. Các máy chủ TLD nameserver được quản lý bởi Internet Assigned Numbers Authority (IANA), một nhánh của ICANN. IANA phân chia các máy chủ TLD thành hai nhóm chính:
 
-Các máy chủ TLD nameserver được quản lý bởi Internet Assigned Numbers Authority (IANA), một nhánh của ICANN. IANA phân chia các máy chủ TLD thành hai nhóm chính:
+  + Generic top-level domains (Tên miền chung không thuộc quốc gia cụ thể): Đây là các tên miền không thuộc về quốc gia cụ thể, một số TLD chung được biết đến nhiều nhất bao gồm .com, .org, .net, .edu, và .gov.
 
-    + Generic top-level domains (Tên miền chung không thuộc quốc gia cụ thể): Đây là các tên miền không thuộc về quốc gia cụ thể, một số TLD chung được biết đến nhiều nhất bao gồm .com, .org, .net, .edu, và .gov.
-
-    + Country code top-level domains (Tên miền theo mã quốc gia): Bao gồm bất kỳ tên miền nào thuộc về một quốc gia hoặc tiểu bang cụ thể. Ví dụ bao gồm .uk, .us, .ru, và .jp.
+  + Country code top-level domains (Tên miền theo mã quốc gia): Bao gồm bất kỳ tên miền nào thuộc về một quốc gia hoặc tiểu bang cụ thể. Ví dụ bao gồm .uk, .us, .ru, và .jp.
 
 - **Authoritative nameserver**: Authoritative nameserver là máy chủ chứa thông tin ánh xạ domain - địa chỉ IP.  **Authoritative nameserver** là điểm dừng cuối cùng trong truy vấn domain -> IP.
 
