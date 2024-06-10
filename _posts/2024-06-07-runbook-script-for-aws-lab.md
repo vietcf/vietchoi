@@ -17,7 +17,7 @@ Lab trên AWS đôi khi cần dựng một số thành phần Infra cơ bản nh
 
 #### 2.CloudFormation Template File: 
 
-
+[Github Link](https://github.com/vietcf/aws-lab-template/tree/main/0.infras)
 
 ## 2. Dựng cụm EKS với một node Minimun 
 
@@ -26,4 +26,6 @@ Lab trên AWS đôi khi cần dựng một số thành phần Infra cơ bản nh
 ![Eks]({{site.url}}/assets/img/2024/06/07/aws_eks_simple.png)
 
 #### 2. CloudFormation Template File: 
+
+[Github Link](https://github.com/vietcf/aws-lab-template/tree/main/1.eks)
 
