@@ -11,21 +11,21 @@ Lab trên AWS đôi khi cần dựng một số thành phần Infra cơ bản nh
 
 ## 1. Dựng VPC với Public Subnet và Private Subnet ở 2 AZ trong cùng một Region
 
-#### 1. Mô hình dự kiến:
+### 1. Mô hình dự kiến:
 
 ![Simple network]({{site.url}}/assets/img/2024/06/07/0_runbook_aws_network_simple.png)
 
-#### 2.CloudFormation Template File: 
+### 2.CloudFormation Template File: 
 
 [Github Link](https://github.com/vietcf/aws-lab-template/tree/main/0.infras)
 
 ## 2. Dựng cụm EKS với một node Minimun 
 
-#### 1. Mô hình dự kiến:
+### 1. Mô hình dự kiến:
 
 ![Eks]({{site.url}}/assets/img/2024/06/07/aws_eks_simple.png)
 
-#### 2. CloudFormation Template File: 
+### 2. CloudFormation Template File: 
 
 [Github Link](https://github.com/vietcf/aws-lab-template/tree/main/1.eks)
 
