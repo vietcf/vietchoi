@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "MITRE ATT&CK FRAMEWORK- Hướng dẫn cho người mới bắt đầu tìm hiểu"
-author: "vietcf"
 categories: job
 tags: ['Security']
 image: assets/img/2024/04/25/0-intro-mitre.jpeg

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Hệ thống DNS hoạt động như thế nào"
-author: "vietcf"
 categories: job
 tags: ['Networking']
 image: assets/img/2024/05/30/what_is_dns.png

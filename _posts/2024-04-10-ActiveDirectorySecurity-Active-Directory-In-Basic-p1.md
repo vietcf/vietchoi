@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Active Directory Security - Quay lại các khái niệm cơ bản, P1"
-author: "vietcf"
 categories: job
 tags: ['Active Directory']
 image: assets/img/2024/04/10/intro.png

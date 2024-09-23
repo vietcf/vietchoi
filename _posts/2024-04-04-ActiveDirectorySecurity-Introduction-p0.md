@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Active Directory Security - Giới thiệu về AD security, P0"
-author: "vietcf"
 categories: job
 tags: ['Active Directory']
 image: assets/img/2024/04/04/00_adsecurity_intro.jpg

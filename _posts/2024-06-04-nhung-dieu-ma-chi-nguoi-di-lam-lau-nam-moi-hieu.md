@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Những điều mà chỉ người đi làm lâu năm mới hiểu,"
-author: "vietcf"
 categories: fun
 tags: ['fun']
 image: assets/img/2024/06/04/intro-trust.jpeg

@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Runbook để dựng môi trường Lab dành cho AWS,"
-author: "vietcf"
 categories: fun
 tags: ['AWS']
 image: assets/img/2024/06/07/cloudformation_intro.png

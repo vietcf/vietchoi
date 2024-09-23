@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Container in depth - Docker cũng chỉ là các process thông thường, P1"
-author: "vietcf"
 categories: job
 tags: ['Container']
 image: assets/img/2024/05/08/0-container-intro.png
