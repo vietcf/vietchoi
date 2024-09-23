@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Những điều mà chỉ người đi làm lâu năm mới hiểu,"
+title: "Những điều mà chỉ người đi làm lâu năm mới hiểu"
 categories: life
 tags: ['Nhảm']
 image: assets/img/2024/06/04/intro-trust.jpeg
