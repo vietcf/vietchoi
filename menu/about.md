@@ -4,4 +4,4 @@ title: Một chút về tôi,
 permalink: /about
 ---
 
-Hi, I'm VietCF,
+Hi, I'm Vietchoi.com,
