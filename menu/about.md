@@ -4,4 +4,5 @@ title: Một chút về tôi,
 permalink: /about
 ---
 
-Hi, I'm Vietchoi.com,
+Xin chào bạn đến đây,
+Blog là những ghi chép xoay quanh công việc và cuộc sống hàng ngày của tôi trong lúc rảnh rỗi. 
