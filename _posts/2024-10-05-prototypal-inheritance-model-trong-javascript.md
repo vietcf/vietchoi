@@ -10,7 +10,7 @@ Javascript là một ngôn ngữ thuần hướng đối tượng (OOP). Tức l
 
 Chúng ta đều biết kế thừa **(Inheritance)**  là đặc điểm nổi  bật của các loại ngôn ngữ hướng đối tượng (OOP). Với đặc điểm này thì các Object con sẽ có khả năng truy cập thuộc tính (Attribute) và sử dụng phương thức (Method) của Object cha.
 
-JavaScript sử dụng mô hình **Prototypal inheritance**, khá khác biệt so với mô hình **Class-based** mà nhiều ngôn ngữ OOP khác sử dụng. Trong bài viết này, tôi sẽ làm rõ về cách thức hoạt động của mô hình **Prototypal inheritance** trong Javascript ~ Tập trung vào nội dung là kế thừa (**Inheritance**) trong Javascript.
+JavaScript sử dụng mô hình **Prototypal inheritance**, khá khác biệt so với mô hình **Class-based** mà nhiều ngôn ngữ OOP khác sử dụng. Trong bài viết này, tôi sẽ làm rõ về cách thức hoạt động của mô hình **Prototypal inheritance** trong Javascript ~ Tập trung vào nội dung là kế thừa (Inheritance) trong Javascript.
 
 # Một chút khởi đầu
 
@@ -73,7 +73,7 @@ console.log(person1.greet()); // Output: Hello, my name is wiener
 
 ![image.png]({{site.url}}/assets/img/2024/10/05/image2.png)
 
-> **Tuy nhiên dù tạo Object theo cách nào đi chăng nữa thì cần phải nhớ rằng dù thế nào Inheritance của Javascript vẫn là Prototypal Inheritance vì đây là đặc tính riêng của Javascript**
+> **Tuy nhiên dù tạo Object theo cách nào thì Inheritance của Javascript vẫn là Prototypal Inheritance đơn giản nó đặc tính riêng của Javascript**
 
 # Prototypal Inheritance hoạt động thế nào?
 
@@ -91,7 +91,7 @@ console.log(person1.greet()); // Output: Hello, my name is wiener
 
 ![image.png]({{site.url}}/assets/img/2024/10/05/image6.png)
 
-- Có 2 cách truy cập Prototype Object là dùng `<object_name>.__proto__`  hoặc `Object.getPrototypeOf/Object.setPrototypeOf*(*<object_name>*)`. Trong đó `__proto__`  là một getter/setter cho `[[Prototype]]` nhưng đã lỗi thời, JavaScript hiện đại khuyến khích lập trình viên nên sử dụng hàm `Object.getPrototypeOf/Object.setPrototypeOf` để thay thế. Tuy nhiên do khả năng tương thích ngược giữa các version của Javascript ta vẫn có thể sử dụng `obj .__ proto__` để truy cập vào `[[Prototype]]`.
+- Có 2 cách truy cập Prototype Object là dùng `<object_name>.__proto__`  hoặc `Object.getPrototypeOf/Object.setPrototypeOf(<object_name>)`. Trong đó `__proto__`  là một getter/setter cho `[[Prototype]]` nhưng đã lỗi thời, JavaScript hiện đại khuyến khích lập trình viên nên sử dụng hàm `Object.getPrototypeOf/Object.setPrototypeOf` để thay thế. Tuy nhiên do khả năng tương thích ngược giữa các version của Javascript ta vẫn có thể sử dụng `obj .__ proto__` để truy cập vào `[[Prototype]]`.
 
 ![image.png]({{site.url}}/assets/img/2024/10/05/image7.png)
 
@@ -100,14 +100,14 @@ console.log(person1.greet()); // Output: Hello, my name is wiener
 Mô tả ngắn gọn thì Prototype nó có dạng chuỗi nhiều lớp:
 
 ```jsx
-**A —*inheritance*—> B (Object Prototype)  —*inheritance*—> C (Object Prototype)** …..**—*inheritance* —> Object —** …..**—*inheritance—>null*** 
+A —inheritance—> B (Object Prototype)  —inheritance—> C (Object Prototype) … —inheritance—> Object —inheritance—> null 
 ```
 
 Mô tả bằng lời cho mối liên hệ trên cụ thể như sau: Prototype Object của một Object bất kỳ là một Object khác và đương nhiên bản thân Prototype Object đó cũng sẽ có Prototype Object của riêng nó, tiếp tục cứ thế cho đến cuối cùng của chuỗi là Prototype Object ở cấp cao nhất sẽ có Prototype Object trỏ về **null**. Để dễ hình dung về điều này hãy coi hình vẽ sau:
 
 ![image.png]({{site.url}}/assets/img/2024/10/05/image8.png)
 
-Đương nhiên trong chuỗi trên thì A hoàn toàn có khả năng truy cập các Attribute và call Method của B, C, ..., Object ~ Có thể truy cập các Attribute hay call Method các Prototype Object ở level cao hơn.
+Đương nhiên trong chuỗi trên thì A hoàn toàn có khả năng truy cập các Attribute và call Method của B, C, ..., Object ~ Object bất kỳ có thể truy cập các Attribute hay call Method các Prototype Object ở level cao hơn.
 
 Ví dụ:  Có đoạn string `a=”Hello”` có Prototype Object là **String** và **String** có Prototype Object là **Object** ⇒ A cũng sẽ được thừa kế các tính năng từ **Object**.
 
@@ -133,7 +133,7 @@ Object.getPrototypeOf(myNumber);    // Number.prototype
 
 ![image.png]({{site.url}}/assets/img/2024/10/05/image10.png)
 
-- Trong Javascript, một hàm (Function) cũng được coi là 1 object (Điều này càng khẳng định trong javascript mọi thứ đều là Object). Và hàm có một thuộc tính đặc biệt tên là **prototype.** Bản thân thuộc tính prototype này mang giá trị là 1 Object.
+- Trong Javascript, một hàm (Function) cũng được coi là một Object (Điều này càng khẳng định trong javascript mọi thứ đều là Object). Và hàm có một thuộc tính đặc biệt tên là **prototype.** Bản thân thuộc tính prototype này mang giá trị là một Object.
 
 ![image.png]({{site.url}}/assets/img/2024/10/05/image11.png)
 
