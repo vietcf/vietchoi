@@ -2,7 +2,7 @@
 layout: post
 title: "Sai lầm chết người khi không để ý truyền vào hàm python một tham chiếu (Reference),"
 categories: job
-tags: ['python']
+tags: ['Python']
 image: assets/img/2024/05/20/1-reference-intro.png
 ---
 
