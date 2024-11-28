@@ -5,7 +5,6 @@ categories: job
 tags: ['javascript']
 image: assets/img/2024/11/28/web-socket-intro.png
 ---
-# Websocket basic
 
 # Giới thiệu về Web Socket
 
