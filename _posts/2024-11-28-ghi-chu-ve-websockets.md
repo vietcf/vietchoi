@@ -8,7 +8,7 @@ image: assets/img/2024/11/28/web-socket-intro.png
 
 # Giới thiệu về Web Socket
 
-HTTP là giao thức 1 chiều (Haft duplex) client gửi request và server nhận  rồi phản hồi lại response luôn. Trong HTTP có thể nhiều request → response cùng nằm trong một TCP connection tuy nhiên dù thế nào thì server vẫn không thể chủ động liên hệ để gửi (send) dữ liệu với client được,  nó chỉ nằm đó nghe ngóng đợi client send request sau đó nó mới có thể phản hồi lại mà thôi. Nói chung khá là “bị động”.
+HTTP là giao thức 1 chiều (Haft duplex) client gửi request và server nhận  rồi phản hồi lại response luôn. Trong HTTP có thể nhiều request <-> response cùng nằm trong một TCP connection tuy nhiên dù thế nào thì server vẫn không thể chủ động liên hệ để gửi (send) dữ liệu với client được,  nó chỉ nằm đó nghe ngóng đợi client send request sau đó nó mới có thể phản hồi lại mà thôi. Nói chung khá là “bị động”.
 
 Trong thực tế nhu cầu giao tiếp hai chiều vẫn luôn thực sự cần thiết trong nhiều tình huống. Ví dụ: Trong các ứng dụng chat khi người dùng chat lên cửa sổ sẽ là chiều từ CLIENT gửi lên SERVER, ngược lại mỗi khi có tin nhắn mới gửi tới cho người dùng thì SERVER thực sự cần nhu cầu “chủ động” gửi lại tin nhắn đó cho CLIENT.
 
@@ -16,20 +16,20 @@ Trong thực tế nhu cầu giao tiếp hai chiều vẫn luôn thực sự cầ
 
 ![image.png]({{site.url}}/assets/img/2024/11/28/image.png)
 
-WebSockets được khởi tạo phiên giữa CLIENT và SERVER bằng HTTP, sau khi khởi tạo xong các message qua lại giữa 2 bên bằng một định dạng riêng không phải HTTP nữa gọi là **WebSocket frames** .  So với TCP sockets thì để sử dụng Websockets đơn giản hơn rất nhiều vì điều kiện để nó hoạt động là máy tính chỉ cần có browser là có thể thực hiện được rồi.
+WebSockets được khởi tạo phiên giữa CLIENT và SERVER bằng HTTP, sau khi khởi tạo xong các message qua lại giữa 2 bên bằng một định dạng riêng không phải HTTP nữa gọi là **WebSocket frames** .  So với TCP sockets thì để sử dụng Websockets đơn giản hơn rất nhiều vì ở phía đầu CLIENT điều kiện để nó hoạt động là máy tính chỉ cần có browser là có thể thực hiện được rồi.
 
-Web socket là asynchronously (Async) nghĩa là Client và Server có thể gửi dữ liệu cho nhau bất cứ lúc nào. Không cần phải chờ yêu cầu-phản hồi như trong HTTP.
+Web socket là asynchronously (Async) nghĩa là CLIENT và SERVER có thể gửi dữ liệu cho nhau bất cứ lúc nào. Không cần phải chờ yêu cầu-phản hồi như trong HTTP.
 
 Viết khá dài nhưng tới đây chỉ cần nhớ: 
 
 > **Websockets ↔ Full duplex & Async**
 > 
 
-Sau khi tạo xong kết nối websocket các message gửi nhận giữa CLIENT ↔ Server có thể là dạng text hoặc blob (binary). Thông thường ta hay gặp dạng text với format json. Nói tới đây để hình dung rằng bản chất Websockets có thể hình dung nó đóng ai trò tạo kênh kết nối còn dữ liệu truyền gì và theo format như thế nào do ta hoàn toàn quyết định.
+Sau khi tạo xong kết nối websocket các message gửi nhận giữa CLIENT ↔ SERVER có thể là dạng text hoặc blob (binary). Thông thường ta hay gặp dạng text với format json. Nói tới đây để hình dung rằng bản chất Websockets có thể hình dung nó đóng ai trò tạo kênh kết nối còn dữ liệu truyền gì và theo format như thế nào do ta hoàn toàn quyết định.
 
 Không quá khó để sử dụng một đoạn code nodejs và js nhỏ để tạo ra một Web Socket:
 
-Code socket bằng nodejs chạy trên server
+Code socket bằng nodejs chạy trên SERVER
 
  
 
@@ -80,7 +80,7 @@ console.log('Type a message in the console to send it to all connected clients..
 
 ```
 
-Code Client Socket bằng js chạy trên browser
+Code CLIENT Socket bằng js chạy trên browser
 
 ```jsx
 <!DOCTYPE html>
