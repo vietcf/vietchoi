@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Container in depth - Cô lập tiến trình, tính năng Namespace trên linux - điểm khởi nguồn của container, P2"
-author: "vietcf"
 categories: job
 tags: ['Container']
 image: assets/img/2024/05/17/0-intro-isolation-container.png
