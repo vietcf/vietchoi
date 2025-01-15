@@ -2,7 +2,7 @@
 layout: post
 title: "Ghi chú về Webockets,"
 categories: job
-tags: ['javascript']
+tags: ['Networking']
 image: assets/img/2024/11/28/web-socket-intro.png
 ---
 

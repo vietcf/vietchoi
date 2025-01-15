@@ -2,7 +2,7 @@
 layout: post
 title: "Prototypal inheritance model và kế thừa trong javascript,"
 categories: job
-tags: ['javascript']
+tags: ['Javascript']
 image: assets/img/2024/10/05/prototype-inheritance-model-intro.jpg
 ---
 

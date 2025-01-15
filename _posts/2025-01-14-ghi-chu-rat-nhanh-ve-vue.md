@@ -2,7 +2,7 @@
 layout: post
 title: "Ghi chú rất nhanh về vue.js framework,"
 categories: job
-tags: ['javascript']
+tags: ['Javascript']
 image: assets/img/2024/11/28/web-socket-intro.png
 ---
 
