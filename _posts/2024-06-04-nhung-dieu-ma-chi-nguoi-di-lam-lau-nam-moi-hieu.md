@@ -2,7 +2,7 @@
 layout: post
 title: "Những điều mà chỉ người đi làm lâu năm mới hiểu"
 categories: life
-tags: ['Ngẫu hứng']
+tags: ['Tản mạn']
 image: assets/img/2024/06/04/intro-trust.jpeg
 ---
 
