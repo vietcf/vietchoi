@@ -3,7 +3,7 @@ layout: post
 title: "Kubernetes In Depth  - Giới thiệu về Kubernetes API server, P1"
 categories: job
 tags: ['Kubernetes']
-image: assets/img/2024/04/22/0-intro-kubernetes.jpg
+image: assets/img/2024/04/22/0-kubeintro.png
 ---
 
 Bữa đang xoạn cái tiêu chuẩn thiết lập an toàn thông tin cho Kubernetes/EKS, mà làm việc này thì không thể không "depth" về cơ chế Authen&Author trong EKS. Nhân tiện tìm hiểu về nội dung này ghi chép lại đây các điểm chính yếu để sau này có lúc càn thì đọc lại.
