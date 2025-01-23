@@ -15,6 +15,19 @@ Nhiều lần "Pv" các Pentester quen biết là "Làm sao để trở thành P
 
 
 
+# 📝 To-Do List
+
+1. **Getting Started Guide** 📌  
+   - [ ] [🛠 Subtask 1 - Set up environment](https://example.com/setup-environment)  
+   - [ ] [📄 Subtask 2 - Read documentation](https://example.com/documentation)  
+
+2. **Client Side Attack** ✅  
+   - [ ] [💡 Subtask 1 - Brainstorm ideas](https://example.com/brainstorm)  
+   - [ ] [🎨 Subtask 2 - Design mockups](https://example.com/design)  
+
+3. **Server Side Attack** ✅  
+   - [ ] [🚀 Subtask 1 - Launch the project](https://example.com/launch)  
+   - [ ] [📊 Subtask 2 - Monitor progress](https://example.com/monitor)
 
 
 
