@@ -27,3 +27,4 @@ Nhiều lần "Pv" các Pentester quen biết là "Làm sao để trở thành P
    - [ ] [🚀 SQL Injection](https://example.com/launch)  
    - [ ] [📊 XML External Entity (XXE)](https://example.com/monitor)
 
+4. **Sẵn sàng săn tìm bug** ✅ 
