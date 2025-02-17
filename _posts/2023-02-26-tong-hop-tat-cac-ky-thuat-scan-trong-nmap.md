@@ -14,21 +14,21 @@ Trước khi đi sâu vào chi tiết, tôi muốn giới thiệu tới các b�
 
 ![nmap feature]({{site.url}}/assets/img/2023/02/26/nmap_feature.PNG)
 
-Dựa vào hình ảnh, chúng ta có thể thấy rõ Nmap hỗ trợ đắc lực cho từng bước của quá trình khám phá (Discovery) thông tin mạng. Nmap có thể nhận đầu vào là địa chỉ mạng (ví dụ: 192.168.1.0/24) hoặc địa chỉ của một host (IP hoặc domain). Sau đó, nó sẽ giúp ta xác định xem host nào trong mạng (nếu đầu vào là địa chỉ mạng) hoặc host được chỉ định (nếu đầu vào là địa chỉ host) còn hoạt động hay không. Nếu host còn sống (alive/online), Nmap sẽ tiếp tục xác định hệ điều hành (OS), các cổng (Port) đang mở, dịch vụ (Service) tương ứng với từng cổng và phiên bản OS, phần mềm (Software) đang chạy dựa trên các Figersprint của chúng. Điểm đặc biệt là Nmap còn cho phép người dùng tùy chỉnh và mở rộng chức năng thông qua các script, ví dụ như tự động thực hiện một tác vụ nào đó khi phát hiện một cổng đang mở. Cuối cùng, kết quả quét và thực thi script có thể được lưu trữ dưới nhiều định dạng khác nhau.
+Dựa vào hình ảnh, chúng ta có thể thấy rõ mindset design của Nmap là hỗ trợ cho từng bước của quá trình khám phá mạng (Discovery) thông tin mạng. Ban đầu, Nmap nhận đầu vào địa chỉ mạng (ví dụ: 192.168.1.0/24) hoặc địa chỉ của một host (IP hoặc domain). Sau đó, nó sẽ giúp ta xác định xem host nào trong mạng (nếu đầu vào là địa chỉ mạng) hoặc host được chỉ định (nếu đầu vào là địa chỉ host) còn hoạt động hay không. Nếu host còn sống (alive/online), Nmap sẽ tiếp tục xác định hệ điều hành (OS), các cổng (Port) đang mở, dịch vụ (Service) tương ứng với từng cổng và phiên bản OS, phần mềm (Software) đang chạy dựa trên các dấu hiệu riêng (Fingerprint) của chúng. Điểm đặc biệt nữa là Nmap còn cho phép người dùng tùy chỉnh và mở rộng chức năng thông qua các script, ví dụ như tự động thực hiện một tác vụ nào đó khi phát hiện một cổng đang mở. Cuối cùng, kết quả quét và thực thi script có thể được lưu trữ dưới nhiều định dạng file khác nhau.
 
 Với mỗi nhiệm vụ thu thập thông tin (ta hay gọi là scan) Nmap cung cấp các chiến lược (tatics)/kỹ thuật (techniques) khác nhau. Lấy ví dụ để scan host còn hoạt động hay không, Nmap có thể sử dụng nhiều phương pháp khác nhau như: ARP scan, ICMP scan hoặc TCP/UDP scan. Tùy thuộc chiến lược được chọn chúng ta sẽ sử dụng các tùy chọn (option) khác nhau khi chạy lệnh ```nmap```. Việc lựa chọn chiến lược nào (hoặc cũng có thể kết hợp nhiều chiến lược nào với nhau) tùy thuộc vào từng tình huống cụ thể của người sử dụng. Chẳng hạn, ARP scan thường được sử dụng trong mạng LAN, trong khi một số chiến lược SYN scan có thể giúp vượt qua tường lửa (do một số loại tường lửa có cơ chế hạn chế khả năng bị Scan).
 
 Sau khi đã nắm vững những tính năng cơ bản của Nmap, việc tiếp theo chúng ta cần làm là tìm hiểu cách sử dụng các tùy chọn (option) trong lệnh Nmap một cách hiệu quả. Việc này sẽ giúp chúng ta tận dụng tối đa sức mạnh của công cụ này. Cách tiếp cận thông thường của tôi để xác định sử dụng option nào là sẽ tham khảo từ cheat sheet [Link Cheat sheet NMAP]({{site.url}}/assets/img/2023/02/26/nmap_cheet_sheet_v7.pdf) (Đây là cheetsheet mà tôi thấy có vẻ ok nhất tìm được trên mạng). Trong trường hợp cheetsheet không có thì tìm google hoặc hỏi ChatGPT thôi (Lựa chọn mới). Anw, thời buổi hiện nay làm gì cũng được miễn là sử dụng từ khóa tìm kiếm phù hợp mà thôi.
 
->Từ đây trở về sau bất cứ khi nào tôi sử dụng sudo nghĩa là cần quyền root để có thể thực hiện scan thành công. Lý do là với mốt số chiến lược nmap cần sử dụng đặc quyền cao để thực hiện một số tác vụ mà ở user thường không được phép truy cập trong hệ điều hành (OS).
+>Quy ước: Từ đây trở về sau bất cứ khi nào tôi sử dụng sudo nghĩa là cần quyền root để có thể thực hiện scan thành công. Lý do là với mốt số chiến lược nmap cần sử dụng đặc quyền cao để thực hiện một số tác vụ mà ở user thường không được phép truy cập trong hệ điều hành (OS).
 
 # Một số option chung
 
-Nmap có một số option chung mà ta có thể sử dụng ở tất cả các loại scan. Cụ thể như phần đầu của cheat sheet bên trên
+Nmap có một số tùy chọn (option) chung mà ta có thể sử dụng ở tất cả các loại scan. Cụ thể các tùy chọn chung có thể xem ở phần đầu của cheat sheet bên trên
 
 ![common_options]({{site.url}}/assets/img/2023/02/26/common_options.PNG)
 
-Áp dụng: Lấy ví dụ thay bằng việc phải gõ vào từng subnet/host từ command ta có thể đặt chúng trong 1 file tên là **targets.txt** rồi sử option `-iL` để load file này vào nmap scan (Dĩ nhiên scan cái gì ta sẽ kết hợp thêm các options khác), mỗi host/subnet là một dòng. Ví dụ: để scan host alive bằng ARP(-PR) không scan port (-sn) trong mạng LAN ta sử dụng lệnh sau:
+Áp dụng: Lấy ví dụ thay bằng việc phải gõ vào từng subnet/host trong console khi chạy command ta có thể đặt chúng trong 1 file tên là **targets.txt** rồi sử option `-iL` để load file này vào nmap scan, với mỗi host/subnet là một dòng (Dĩ nhiên scan cái gì ta sẽ kết hợp thêm các options khác nữa, các option khác sẽ nói sau). Để minh họa tôi thử scan host alive bằng ARP(-PR) không scan port (-sn) trong mạng LAN với lệnh sau:
 
 `sudo nmap -PR -sn -iL targets.txt`
 
@@ -50,15 +50,14 @@ Thêm option load from file nào
 
 Với các chiến lược còn lại ta làm tương tự thôi. Cái này easy quá phải không
 
-
 # Nmap Port scan ~ Xác định các port được mở trên host
 
-Trước khi bắt đầu ta cần hiểu một số trạng thái của port mà nmap có thể trả lại khi ta thực hiện scan port. Các trạng thái có thể xảy ra bao gồm:
+Trước khi bắt đầu ta cần hiểu một số trạng thái của cổng (port) mà nmap có thể trả lại khi ta thực hiện scan. Các trạng thái có thể xảy ra bao gồm:
 
 + `Open` (mở): Điều này có nghĩa là một ứng dụng đang lắng nghe kết nối trên cổng đó.
 + `Closed` (đóng): Điều này có nghĩa là cổng không có ứng dụng nào lắng nghe kết nối.
-+ `Filtered` (được lọc): Điều này có nghĩa là cổng đó đang bị chặn bởi tường lửa hoặc bởi các thiết bị bảo mật khác.
-+ `Unfiltered` (không được lọc): Điều này có nghĩa là Nmap không thể xác định trạng thái của cổng.
++ `Filtered` (được lọc): Điều này có nghĩa là cổng đó đang bị chặn bởi tường lửa hoặc bởi các thiết bị bảo mật khác, khiến Nmap không thể xác định trạng thái thực sự.
++ `Unfiltered` (không được lọc): Điều này có nghĩa là Nmap có thể tiếp cận cổng nhưng không thể xác định chính xác trạng thái của nó.
 + `Open|Filtered` (mở hoặc được lọc): Điều này có nghĩa là Nmap không thể xác định chắc chắn liệu cổng đó có được mở hay không do bị chặn bởi tường lửa hoặc các thiết bị bảo mật khác.
 
 Khi cần xác định một/các port được mở trên 1 host ta có thể sử dụng một số chiến lược/kỹ thuật scan như sau:
@@ -83,7 +82,7 @@ Tới đây ta vẫn tiếp tục áp dụng phương án sử dụng chat gpt �
 
 ### Scan OS
 
-Nmap cũng hỗ trợ ta xác định OS của target dựa trên finger sprint của OS. Có thể sử dụng cú pháp sau để sử dụng tính năng này
+Nmap cũng hỗ trợ ta xác định OS của target dựa trên fingerprint của OS. Có thể sử dụng cú pháp sau để sử dụng tính năng này
 
 `nmap -O <target>` 
 
@@ -94,7 +93,6 @@ Ngoài nmap cũng hỗ trợ ta xác định các dịch vụ (Dịch vụ là g
 `sudo nmap -sV --version-intensity 9 <target>` 
 
 Trong đó: `-sV`: Là option chỉ ra rằng nmap sẽ scan detect service .`--version-intensity [0-9]` là option để tăng mức độ chi tiết của thông tin liên quan tới dịch vụ ta thực hiện scan. Chỉ số càng cao mức độ chi thông tin chi tiết càng nhiều. 
-
 
 ### NSE script trong nmap
 
@@ -127,10 +125,10 @@ Còn nếu muốn scan toàn bộ 65535 port TCP thì ta sử dụng option -p-
 
 `sudo nmap kenh14.vn -sT -sV -sC -O -p-`
 
-OK chỉ lấy một ví dụ thế thôi, thực tế nếu bạn có nhu cầu nào thì các bạn tùy biến cho phù hợp. 
+OK ở đây tôi chỉ lấy một ví dụ để minh họa thế thôi, thực tế nếu bạn có nhu cầu nào thì các bạn tùy biến cho phù hợp. 
 
-# Hãy nhớ
+# Cuối cùng hãy nhớ!
 
 Bài viết khá dài và nhiều nội dung nhưng tôi nghĩ điều quan trọng là bạn nắm được các tính năng của nmap một cách có hệ thống thôi, còn lại chi tiết hãy để Google và chat GPT lo. Cái đầu của chúng ta quá nhỏ bé để nhớ tất cả mọi thứ phải không.
 
-Thks bạn đã đọc bài viết của tôi. 
+Thks bạn đã đọc bài viết của tôi.
