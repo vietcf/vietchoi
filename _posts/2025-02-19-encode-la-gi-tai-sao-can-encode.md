@@ -26,7 +26,15 @@ Tại sao cần Encode? Để trả lời cho câu hỏi này không có cách n
 
 ⇒ Tóm lại Encoding là quan trọng trong lĩnh vực khoa học máy tính.
 
+# Quá trình ngược của Encode là Decode
+
+Cái này dĩ nhiên rồi, có Encode thì phải có Decode để khôi phục dữ liệu về dạng ban đầu. 
+
+![encode and decode]({{site.url}}/assets/img/2025/02/19/1-encoding-and-decoding-strings-problem.png)
+
+Thông thường các thuật toán Encode và Eecode  theo một số chuẩn nhất định và các chuẩn này cũng được công khai. Ai có đoạn mã đã được encode thì có thể decode đoạn mã đó một cách dễ dàng mà không cần thêm thông tin “bí mật gì” miễn là chọn đúng thuật toán mà thôi.
+
 # Tổng hợp lại
 
-- Encode là để đảm bảo `khả năng sử dụng (usability) của dữ liệu` . Khả năng sử dụng này bao gồm việc phục vụ việc truyền tải (transmit) hoặc lưu trữ (store) dữ liệu.
-- Encode nhiều khi người ta cũng gọi là “Mã hóa”, tuy nhiên `encoding không liên quan và cũng không giúp cải thiện việc bảo mật của dữ liệu` . Thông thường các thuật toán encode và decode  theo một số chuẩn nhất định và các chuẩn này cũng được công khai. Ai có đoạn mã đã được encode thì có thể decode được dễ dàng chả cần thêm thông tin “bí mật gì” miễn là chọn đúng thuật toán mà thôi.
+- Encode là để đảm bảo **khả năng sử dụng (usability) của dữ liệu**. Khả năng sử dụng này bao gồm việc phục vụ việc truyền tải (transmit) hoặc lưu trữ (store) dữ liệu.
+- Encode nhiều khi người ta cũng gọi là “Mã hóa”, tuy nhiên **encoding không liên quan và cũng không giúp cải thiện việc bảo mật của dữ liệu**
