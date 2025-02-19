@@ -6,8 +6,6 @@ tags: ['Security']
 image: assets/img/2025/02/19/0-encoding-intro.png
 ---
 
-# Encoding là gì? Tại sao cần Encoding dữ liệu
-
 Trong quá trình làm việc ta thường hay gặp cụm từ Encoding(n)/Encode(v). Ví dụ:  Base64 Encode, URL Encode, … vậy Encoding là gì và tại sao cần Encode?
 
 # Encode là gì?
