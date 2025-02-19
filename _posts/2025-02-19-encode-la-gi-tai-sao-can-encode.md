@@ -28,11 +28,11 @@ Tại sao cần Encode? Để trả lời cho câu hỏi này không có cách n
 
 # Quá trình ngược của Encode là Decode
 
-Cái này dĩ nhiên rồi, có Encode thì phải có Decode để khôi phục dữ liệu về dạng ban đầu. 
+Cái này dĩ nhiên rồi, có Encode để chuyển đổi dữ liệu sang định dạng đích thì phải có Decode để khôi phục dữ liệu về dạng ban đầu. 
 
 ![encode and decode]({{site.url}}/assets/img/2025/02/19/1-encoding-and-decoding-strings-problem.png)
 
-Thông thường các thuật toán Encode và Eecode  theo một số chuẩn nhất định và các chuẩn này cũng được công khai. Ai có đoạn mã đã được encode thì có thể decode đoạn mã đó một cách dễ dàng mà không cần thêm thông tin “bí mật gì” miễn là chọn đúng thuật toán mà thôi.
+Thông thường các thuật toán Encode và Decode  theo một số chuẩn nhất định và các chuẩn này cũng được công khai. Ai có đoạn mã đã được encode thì có thể decode đoạn mã đó một cách dễ dàng mà không cần thêm thông tin “bí mật gì” miễn là chọn đúng thuật toán mà thôi.
 
 # Tổng hợp lại
 
