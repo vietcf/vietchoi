@@ -6,20 +6,20 @@ tags: ['Linux']
 image: assets/img/2019/05/30/0-intro-apt-get_logo.png
 ---
     
->apt, apt-get, apt-cache là lệnh mà tôi tin răng dev nào chắc cũng đều đã từng gõ một lần trong đời. Cơ mà tôi vẫn tự tin để hỏi rằng mọi người từng xài bao nhiêu % trong nội dung bài này của tôi rồi?
+>apt, apt-get, apt-cache là lệnh mà tôi tin rằng dev nào chắc cũng đều đã từng gõ một lần trong đời. Cơ mà tôi vẫn tự tin để hỏi rằng mọi người từng xài bao nhiêu % trong nội dung bài này của tôi rồi?
 
 Thống kê một trong những lệnh gõ nhiều nhất trên linux trong cuộc đời tôi có lẽ là **apt-get**. Nhẩm tính từ năm 1 đại học đã xài linux và gõ apt-get điên đảo rồi. Cái hồi mà distro hay sử dụng là ubuntu tầm 9.X thì phải. Giờ đã lên 19 rồi (trùng hợp thế đúng 10 năm 10 base version). Nay có thời gian "take a note" về lệnh này, chỉ là sự điểm lại nhe nhẹ chứ không có ý cao siêu dạy đời và dạy người nên mọi người đừng chém tôi nhé. Ai thấy chán quá xin bỏ qua một cách nhẹ nhàng.
 
 ![apt-get]( {{site.url}}/assets/img/2019/05/30/front.jpg){:width="600px"}
 
-### 1. Giới thiệu,
+# 1. Giới thiệu,
 
 Apt-get nằm trong gói ***Advanced Package Tool***. Gói này gồm 3 tool rất quen là apt-get, apt-cache và apt (Cái này chắc mọi người ít nghe). Trong đó apt-get chịu trách nhiệm quản lý gói (Gỡ, xóa, update, download, ...). Apt-cache dùng cho việc search gói, thông tin gói. Còn lại **apt** (Từ phiên bản ubunutu 16.04) thấy các bác khẳng định chắc nịch là phiên bản cải tiến, là sự nâng cấp tổng hợp tính năng của apt-get + apt cache. Đọc tới đây tôi nghĩ có lẽ mọi người nên tập thói quen xài apt thay apt-get dần đi, không có ngày các bác ý hứng lên lại thay luôn apt-get, apt-cache bằng apt thì xong.
 
 Apt-get, apt-cache, apt là bộ công cụ quản lý gói sử dụng dpkg để quản lý các gói deb. Lấy ví dụ  ***chỉ*** dùng dpkg cài gói A, check thông tin trong gói A yêu cầu phải cài gói B trước. Tuy nhiên tự dpkg nó không làm việc này vì scope của nó là chỉ tác động only trên gói đang cài A thui. Nên thông thường không thêm option gì nó sẽ báo lỗi là không cài được vì thếu dependencies packages. (Dĩ nhiên ép nó cài vẫn cài dược nhưng cài xong nó sẽ không chạy). Tuy nhiên việc hành xử lại khác khi xài apt-get hoặc apt cài gói. Lúc này apt-get, apt sẽ tìm kiếm và tải gói (nếu gói không có sẵn) trên repo về. Sau đó dùng dpkg để cài gói A. Nếu gói A yêu cầu gói B. Thì job cài gói A sẽ được cho vào queue để đó. Apt-get, apt sẽ tải gói B về, cài gói B ngon nghẻ. Sau đó móc từ queue ra cài gói A. Lúc này gói A cài được vì B đã được cài rồi.
 
 
-### 2. Man page rất dài và dai nhưng tôi chỉ xin liệt kê vài lệnh hay dùng:
+# 2. Man page rất dài và dai nhưng tôi chỉ xin liệt kê vài lệnh hay dùng:
 
 ```
 apt-get update             	->  apt update
@@ -39,7 +39,7 @@ apt-cache showpkg package  	->  apt show -a package
 
 Chắc list kia mọi người khá quen quá rồi. Tôi chỉ note qua 1 chút thôi, không giải thích nhiều. 
 
-#### *Đầu tiên tôi focus vào làm rõ sự khác biệt giữa update, upgrade và dist-update*
+#### *Đầu tiên: Tôi focus vào làm rõ sự khác biệt giữa update, upgrade và dist-update*
 
 Xét trường hợp sử dụng apt-get/apt khi thực hiện cài 1 gói việc đầu tiên sẽ đọc file /etc/apt/source.list (Hoặc các file trong thư mục /etc/apt/source.list.d nếu thư mục này được cấu hình load) tìm các location rồi download các meta data (chỉ duy nhất là thông tin: tên, version, ...) của gói cài đặt lưu tại database local như category về các gói. Sau này toàn bộ việc tìm kiếm các gói để cài đặt sẽ thực hiện tìm kiếm trên database này. Database như bản đồ để biết lấy gói nào ở đâu.
 * apt-get/apt update là lệnh kích hoạt việc chạy cập nhật database local. Không thực hiện update các gói.
@@ -57,11 +57,11 @@ Tail thử file xem có gì hay ho không?
 
 OK fine, đó là text file đọc ngon mọi người ạ.
 
-#### *Thứ 2 tôi phân biệt giữa: apt-get/apt remove và purge*
+#### *Thứ 2: tôi phân biệt giữa: apt-get/apt remove và purge*
 
 Với apt-get/apt remove khi gỡ gói vẫn giữ lại cấu hình cũ (thường là file cấu hình). Còn với apt-get/apt purge thì khi gỡ gói xóa bỏ luôn toàn bộ các cấu hình trước đó.
 
-#### *Thứ 3 tôi phân biệt giữa apt-get/apt clean, apt-get/apt autoclean và apt-get/apt autoremove*
+#### *Thứ 3: tôi phân biệt giữa apt-get/apt clean, apt-get/apt autoclean và apt-get/apt autoremove*
 
 Tôi cài thêm gói tcptraceroute huyền thoại vì cái này hay dùng:
 
@@ -94,7 +94,7 @@ Hy vọng mọi người vẫn hiểu tôi đang nói gì :)
 Chắc mọi người choáng hết đầu vì tôi viết dài quá rồi. Nhưng không sao, chịu khó chút tôi viết nốt tí thôi =))
 
 
-### 3. Giờ tôi nói qua tí về mấy file cấu hình của apt-get/apt-cache/apt-get
+# 3. Giờ tôi nói qua tí về mấy file cấu hình của apt-get/apt-cache/apt-get
 
 #### Đầu tiên là file huyền thoại: /etc/apt/source.list.
 Ví dụ 1 phần của file (chắc quá quen thuộc rồi)
