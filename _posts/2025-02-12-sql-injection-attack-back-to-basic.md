@@ -20,7 +20,7 @@ SQL Injection (SQLi) là một dạng cụ thể của tấn công Injection. C�
 
 Để khai thác lỗ hồng SQLi một số blogger tổng hợp lại các kỹ thuật chính như sau:
 
-![image.png]({{site.url}}/assets/img/2025/02/12/11-sql-injection-technical.png)
+![sqli technical]({{site.url}}/assets/img/2025/02/12/1-sql-injection-technical.png)
 
 >Tuy nhiên cần phải hiểu rằng các kỹ thuật này có thể sử dụng riêng lẻ hoặc kết hợp lẫn nhau. Không có một quy tắc nào cố định cả, tất cả tùy thuộc vào độ sáng tạo của người áp dụng.
 
@@ -33,29 +33,37 @@ Như cái tên của nó In-band SQLi có nghĩa là Attacker sử dụng cùng 
 Lợi dụng thông báo lỗi để nhận diện lỗi hoặc khai thác thông tin trong CSDL (Lấy thông tin về loại DB, Kiểu DB, Tên DB, Tên bảng và dữ liệu trong DB ...) và không làm thay đổi dữ liệu trong DB.
 
 Ví dụ:
+***Nhận diện lỗi***: Đã quá quen thuộc với hình bên dưới đối vơi những ai đã từng học PHP-MySQL. Đây là thông báo đặc trưng để phát hiện Ứng dụng chứa lỗi SQLi và Kiểu DB là MySQL.
 
-Ứng dụng nhận đối số **input** từ user không làm sạch dữ liệu. Phía dưới được xử lý bằng câu lệnh truy vấn như sau:
+![sqli technical error base1]({{site.url}}/assets/img/2025/02/12/2-sql-error-base1.png)
 
-```SELECT * FROM article WHERE title = '$input';```
+***Khai thác dữ liệu DB:*** Ứng dụng nhận đối số **input** từ user không làm sạch dữ liệu. Phía dưới được xử lý bằng câu lệnh truy vấn như sau:
+
+```SELECT * FROM article WHERE title='$input';```
 
 Với cấu trúc bảng:
 
-```CREATE TABLE article (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255),
-    content TEXT
-); ```
+```sql
+    CREATE TABLE article (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        content TEXT
+    ); 
+```
 
-Nếu Input nhận vào như sau ```' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT database()))) -- ```. Ta sẽ lấy được thông tin bảng: ```XPATH syntax error: '~mydb'```
+Nếu Input nhận vào như sau ```' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT database()))) -- ```. Kết quả trả về nếu lỗi được hiển thị trên page ta sẽ lấy được thông tin bảng: ```XPATH syntax error: '~mydb'```
 
 Giải thích từng phần:
 
-```' AND ... -- → Bắt đầu SQL Injection và kết thúc truy vấn hợp lệ.
-EXTRACTVALUE(1, ...) → Gọi hàm EXTRACTVALUE() để cố tình gây lỗi.
-CONCAT(0x7e, (SELECT database()))
-0x7e là ký tự ~ trong bảng mã hex, giúp làm rõ dữ liệu trả về.
-(SELECT database()) lấy tên database hiện tại.
+```sql
+' AND ... -- → Bắt đầu SQL Injection và kết thúc truy vấn hợp lệ.
+
+EXTRACTVALUE(1, ...) → Gọi hàm EXTRACTVALUE() để cố tình gây lỗi hiện thị. Hàm này đò format trong dấu ngoặc là XML nên ta cung cấp text thông thường nó sẽ báo lỗi.
+
+CONCAT(0x7e, (SELECT database())) → 0x7e là ký tự ~ trong bảng mã hex, giúp làm rõ dữ liệu trả về. (SELECT database()) lấy tên database hiện tại.
+
 -- → Comment phần còn lại của truy vấn để tránh lỗi cú pháp.```
+```
 
 ### UNION Base
 
