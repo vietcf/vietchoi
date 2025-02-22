@@ -14,19 +14,19 @@ SQL Injection (SQLi) là một dạng cụ thể của tấn công Injection. C�
 
 >Lợi dụng các cú pháp, quy tắc “từ điển” có sẵn để thao túng hành vi của đối tượng xử lý instruction
 
-=> Rõ ràng Attacker không tạo ra mới mà chỉ lợi dụng quy tắc có sẵn để thao túng xử lý theo ý của attacker.
+=> Rõ ràng Attacker không tạo ra thứ gì mới lạ, mà chỉ lợi dụng quy tắc có sẵn để "thao túng" việc xử lý theo ý đồ mà Attacker mong muốn.
 
 # Phân loại các kỹ thuật trong SQLi
 
-Để khai thác lỗ hồng SQLi một số blogger tổng hợp lại các kỹ thuật chính như sau:
+Để khai thác lỗ hồng SQLi một số Blogger trên mạng tổng hợp lại các kỹ thuật chính hay được sử dụng như sau:
 
 ![sqli technical]({{site.url}}/assets/img/2025/02/12/1-sql-injection-technical.png)
 
->Tuy nhiên cần phải hiểu rằng các kỹ thuật này có thể sử dụng riêng lẻ hoặc kết hợp lẫn nhau. Không có một quy tắc nào cố định cả, tất cả tùy thuộc vào độ sáng tạo của người áp dụng.
+>Tuy nhiên cần phải hiểu rằng các kỹ thuật này có thể sử dụng riêng lẻ hoặc kết hợp lẫn nhau. Cùng một vị trí mắc lỗi SQLi có thể có nhiều cách khai thác sử dụng các kỹ thuật khác nhau. Không có một quy tắc nào cố định cả, tất cả tùy thuộc vào độ sáng tạo của người áp dụng.
 
 # In-band SQLi
 
-Như cái tên của nó In-band SQLi có nghĩa là Attacker sử dụng cùng một kênh giao tiếp để khai thác lỗ hổng và nhận kết quả. Ví dụ dễ hình dung nhất: Một trang web có lỗ hổng SQL Injection, nếu Attacker có thể thực hiện truy vấn độc hại (khai thác) và nhận dữ liệu trả về ngay trên chính trang đó thì trường hợp này gọi là In-band SQLi. Với In-band có 2 kỹ thuật hay được sử dụng để khai thác là **Error Base** và **UNION Base**
+Như cái tên của nó In-band SQLi có nghĩa là Attacker sử dụng cùng một kênh giao tiếp để khai thác lỗ hổng và nhận kết quả. Ví dụ dễ hình dung nhất: Một trang web có lỗ hổng SQL Injection, nếu Attacker có thể thực hiện truy vấn độc hại (khai thác) và nhận dữ liệu trả về trên chính trang web đó thì trường hợp này gọi là In-band SQLi. Với In-band có 2 kỹ thuật hay được sử dụng để khai thác là **Error Base** và **UNION Base**
 
 ### Error Base
 
@@ -34,11 +34,11 @@ Lợi dụng thông báo lỗi để nhận diện lỗi hoặc khai thác thôn
 
 Ví dụ:
 
-* ***VD dùng Error Base để nhận diện lỗi***: Đã quá quen thuộc với hình bên dưới đối vơi những ai đã từng học PHP-MySQL. Đây là thông báo đặc trưng để phát hiện Ứng dụng chứa lỗi SQLi và Kiểu DB là MySQL.
+* ***VD dùng Error Base để nhận diện lỗi***: Hình anh bên dưới là thứ đã quá quen thuộc với những ai đã từng học PHP-MySQL. Đây là thông báo đặc trưng để phát hiện Ứng dụng chứa lỗi SQLi và Kiểu DB là MySQL.
 
 ![sqli technical error base1]({{site.url}}/assets/img/2025/02/12/2-sql-error-base1.png)
 
-* ***VD dùng Error Base để khai thác/truy dữ liệu DB:*** Ứng dụng nhận đối số **input** từ user không làm sạch dữ liệu. Phía dưới được xử lý bằng câu lệnh truy vấn như sau:
+* ***VD dùng Error Base để khai thác/truy dữ liệu DB:*** Ứng dụng nhận đối số **input** từ user, không làm sạch dữ liệu. Phía dưới được xử lý bằng câu lệnh truy vấn như sau:
 
 ```SELECT * FROM article WHERE title='$input';```
 
@@ -52,16 +52,12 @@ Với cấu trúc bảng:
     ); 
 ```
 
-Nếu Input nhận vào như sau ```' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT database()))) -- ```. Kết quả trả về nếu lỗi được hiển thị trên page ta sẽ lấy được thông tin bảng: ```XPATH syntax error: '~mydb'```
+Nếu Input nhận vào Payload khai thác như sau ```' AND EXTRACTVALUE(1, CONCAT(0x7e, (SELECT database()))) -- ```. Nếu lỗi (Error) được hiển thị trên page sẽ là: ```XPATH syntax error: '~mydb'```
 
-Giải thích từng phần:
-* ```' AND ... --``` → Bắt đầu SQL Injection và kết thúc truy vấn hợp lệ.
+Giải thích từng phần của Payload:
 
-* ```EXTRACTVALUE(1, ...)``` → Gọi hàm EXTRACTVALUE() để cố tình gây lỗi hiện thị. Hàm này yêu cầu format trong dấu ngoặc là XML nên ta cung cấp text thông thường nó sẽ báo lỗi.
+![sqli technical error base2]({{site.url}}/assets/img/2025/02/12/3-sql-injection-error-base2.png)
 
-* ```CONCAT(0x7e, (SELECT database()))``` → 0x7e là ký tự ~ trong bảng mã hex, giúp làm rõ dữ liệu trả về. (SELECT database()) lấy tên database hiện tại.
-
-* ```--```` → Comment phần còn lại của truy vấn để tránh lỗi cú pháp.```
 
 Practice: Thử suy nghĩ xem muốn lấy danh sách các bảng trong DB và truy vấn thông tin trong một bảng thì làm thế nào :)
 
