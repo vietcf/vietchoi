@@ -65,6 +65,10 @@ Practice: Thử suy nghĩ xem muốn lấy danh sách các bảng trong DB và t
 
 ## UNION Base
 
+Câu lệnh UNION là thứ không quá "xa lạ" với ai đã từng làm việc với SQL
+
+![sqli technical union]({{site.url}}/assets/img/2025/02/12/3-sql-injection-union.png)
+
 Quay lại với ví dụ: Ứng dụng nhận đối số **input** từ user, không làm sạch dữ liệu. Phía dưới được xử lý bằng câu lệnh truy vấn như sau:
 
 ```select * from article where id = '$input';``` => Hiển thị nội dung chi tiết của một bài viết trên trang.
