@@ -28,7 +28,7 @@ SQL Injection (SQLi) là một dạng cụ thể của tấn công Injection. C�
 
 Như cái tên của nó In-band SQLi có nghĩa là Attacker sử dụng cùng một kênh giao tiếp để khai thác lỗ hổng và nhận kết quả. Ví dụ dễ hình dung nhất: Một trang web có lỗ hổng SQL Injection, nếu Attacker có thể thực hiện truy vấn độc hại (khai thác) và nhận dữ liệu trả về trên chính trang web đó thì trường hợp này gọi là In-band SQLi. Với In-band có 2 kỹ thuật hay được sử dụng để khai thác là **Error Base** và **UNION Base**
 
-### Error Base
+## Error Base
 
 Lợi dụng thông báo lỗi để nhận diện lỗi hoặc khai thác thông tin trong CSDL (Lấy thông tin về loại DB, Kiểu DB, Tên DB, Tên bảng và dữ liệu trong DB ...) và không làm thay đổi dữ liệu trong DB.
 
@@ -63,7 +63,7 @@ Practice: Thử suy nghĩ xem muốn lấy danh sách các bảng trong DB và t
 
 >Note: Với kỹ thuật này có 2 hàm rất hay được sử dụng khi khai thác Error base SQLi với MySQL là ExtractValue() hoặc UpdateXML()  ⇒ Ghi nhớ điều này sẽ sử dụng sau này.
 
-### UNION Base
+## UNION Base
 
 Quay lại với ví dụ: Ứng dụng nhận đối số **input** từ user, không làm sạch dữ liệu. Phía dưới được xử lý bằng câu lệnh truy vấn như sau:
 
