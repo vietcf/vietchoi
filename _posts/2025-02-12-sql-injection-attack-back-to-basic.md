@@ -80,6 +80,13 @@ Với cấu trúc bảng trong CSDL:
         content TEXT
     ); 
 ```
+Giả sử web vẫn bật tính năng hiển thị lỗi (Error). Do vậy khi query với câu lệnh sai cú pháp thì lỗi vẫn hiển thị.
+
+![sqli technical error base4]({{site.url}}/assets/img/2025/02/12/3-sqli-error-base4.png)
+
+Lỗi chỉ hết khi số lượng cột sau UNION bằng số cột trong câu lệnh SELECT ban đầu để câu lệnh SQL không bị lỗi cú pháp => Ta sẽ xác định được số cột cần thiết sau UNION.
+
+![sqli technical error base4]({{site.url}}/assets/img/2025/02/12/3-sql-injection-error-base5.png)
 
 
 # Blind SQLi
