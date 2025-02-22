@@ -67,6 +67,8 @@ Practice: Thử suy nghĩ xem muốn lấy danh sách các bảng trong DB và t
 
 Câu lệnh UNION là thứ không quá "xa lạ" với ai đã từng làm việc với SQL
 
+Kỹ thuật UNION Base sử dụng toán tử SQL UNION kết hợp với SELECT để trả về dữ liệu bổ sung trên trang. Đây là phương pháp phổ biến nhất để trích xuất dữ liệu trái phép qua lỗ hổng SQL Injection.
+
 ![sqli technical union]({{site.url}}/assets/img/2025/02/12/3-sql-injection-union.png)
 
 Quay lại với ví dụ: Ứng dụng nhận đối số **input** từ user, không làm sạch dữ liệu. Phía dưới được xử lý bằng câu lệnh truy vấn như sau:
