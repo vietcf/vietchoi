@@ -65,6 +65,23 @@ Practice: Thử suy nghĩ xem muốn lấy danh sách các bảng trong DB và t
 
 ### UNION Base
 
+Quay lại với ví dụ: Ứng dụng nhận đối số **input** từ user, không làm sạch dữ liệu. Phía dưới được xử lý bằng câu lệnh truy vấn như sau:
+
+```select * from article where id = '$input';``` => Hiển thị nội dung chi tiết của một bài viết trên trang.
+
+![sqli technical error base3]({{site.url}}/assets/img/2025/02/12/3-sql-error-base2.png)
+
+Với cấu trúc bảng trong CSDL:
+
+```sql
+    CREATE TABLE article (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        title VARCHAR(255),
+        content TEXT
+    ); 
+```
+
+
 # Blind SQLi
 
 # Outband SQLi
