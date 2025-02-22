@@ -150,6 +150,21 @@ Boolean SQLi được sử dụng khi chỉ có 2 giá trị trả lại. Hai gi
 
 Kẻ tấn công gửi một truy vấn SQL đến cơ sở dữ liệu, buộc ứng dụng trả về kết quả khác nhau dựa trên điều kiện đúng hoặc sai từ đó dò dần dữ liệu. (Ai đã từng học thuật toán tìm kiếm chia đôi thì sẽ thấy nó tương tự như vậy).
 
+Ví dụ: Giả sử có ứng dụng có hàm kiểm tra sự tồn tại của một username với username nhận vào từ người dùng. Dưới ứng dụng xử lý bằng câu lệnh sql như sau:
+
+```sql
+SELECT * FROM users WHERE username = '%username%' LIMIT 1;
+```
+
+* Nếu username tồn tại câu lệnh trả lại true trên ứng dụng web. Ngược lại trả lại false.
+
+![sqli technical boolean]({{site.url}}/assets/img/2025/02/12/4-sql-injection-boolean1.png)
+
+* Thử với payload ```' OR 1=1 --``` thì trả lại true
+
+* Thử với payload ```' OR 0=1 --``` thì trả lại false
+
+=> Ta thấy rằng có 2 giá trị true và flase được trả lại. Giá trị logic của biểu thức sau WHERE quyết định giá trị trả lại của Query: Nếu sau where là biểu thức logic có giá trị TRUE thì ứng dụng trả lại true ngược lại sau WHERE là biểu thức logic có giá trị FALSE thì ứng dụng trả lại false => Rất có thể ứng dụng có lỗi SQLi và đặc biệt là có thể sử dụng kỹ thuật Boolean Base do ta hoàn toàn có thể kiểm soát giá trị logic sau WHERE dựa vào input cung cấp cho ```%username%``` để có các suy luận nhât định giúp rò ra thông tin.
 
 
 ## Time Base
