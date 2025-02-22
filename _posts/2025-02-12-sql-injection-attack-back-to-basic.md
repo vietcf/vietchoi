@@ -122,7 +122,37 @@ Tiếp tục không khó để lấy tên các bảng của CSDL bằng một s�
 
 Quá lợi hại phải không các bạn.
 
-# Blind SQLi
+# Inferentail/Blind SQLi
+
+Inferentail SQL Injection (Có người còn gọi là Blind SQLi) là kỹ thuật tấn công SQL Injection trong đó payload vẫn được thực thi theo đúng ý Attacker nhưng Attacker không nhận được phản hồi trực tiếp từ hệ thống (Blind ~ mù) do kết quả của việc thực thi hoặc lỗi bị ẩn hoặc bị tắt Disabed. Tuy nhiên, bằng cách quan sát các thay đổi trong hành vi ứng dụng, kẻ tấn công vẫn có thể suy luận và trích xuất dữ liệu từ database.
+
+Với Blind SQLi có 2 kỹ thuật hay được sử dụng là: Authentication Bypass và Boolean Based.
+
+## Authentication Bypass
+
+Authentication Bypass là một case cơ bản của Blind SQLi. Với case này đơn giản chỉ cần bypass được form login để vượt qua cơ chế xác thực mà chả cần khai thác thông tin gì của DB cả. 
+
+Thông thường user cần cấp username và password để dưới ứng dụng build lên query sau:
+
+```select * from users where username='%username%' and password='%password%' LIMIT 1;```
+
+Nếu query trả lại bản ghi khác rỗng quá trình logon thành công ngược lại thất bại. Với case này thay payload vào ô password với nội dung: ```' OR 1=1;--``` để câu lệnh truy vấn check password thành:
+
+```select * from users where username='' and password='' OR 1=1;```
+
+Vì ```1=1`` là một điều kiện luôn TRUE và chúng ta đã sử dụng toán tử OR nên làm biểu thức logic sau WHERE luôn là TRUE. Truy vấn sẽ luôn trả về giá trị khác rỗng, thỏa mãn logic của ứng dụng web rằng database đã tìm thấy một cặp username/password hợp lệ, dẫn đến việc cho phép truy cập.
+
+Khá dễ hiểu phải không, đây cũng là ví dụ kinh điển hay gặp mà các blogger hay sử dụng để giới thiệu về SQLi.
+
+## Boolean Base
+
+Boolean SQLi được sử dụng khi chỉ có 2 giá trị trả lại. Hai giá trị có thể là True - False, 0 - 1, yes - no, Thành công - thất bại, thậm trí có lỗi - không có lỗi cũng được coi là một dạng boolean (Nhìn về tổng quát error based cũng có thể sử dụng như dạng biến thể của Boolean), ...
+
+Kẻ tấn công gửi một truy vấn SQL đến cơ sở dữ liệu, buộc ứng dụng trả về kết quả khác nhau dựa trên điều kiện đúng hoặc sai từ đó dò dần dữ liệu. (Ai đã từng học thuật toán tìm kiếm chia đôi thì sẽ thấy nó tương tự như vậy).
+
+
+
+## Time Base
 
 # Outband SQLi
 
