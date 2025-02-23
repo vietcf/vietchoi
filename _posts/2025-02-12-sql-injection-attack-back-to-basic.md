@@ -166,6 +166,20 @@ SELECT * FROM users WHERE username = '%username%' LIMIT 1;
 
 => Ta thấy rằng có 2 giá trị true và flase được trả lại. Giá trị logic của biểu thức sau WHERE quyết định giá trị trả lại của Query: Nếu sau where là biểu thức logic có giá trị TRUE thì ứng dụng trả lại true ngược lại sau WHERE là biểu thức logic có giá trị FALSE thì ứng dụng trả lại false => Rất có thể ứng dụng có lỗi SQLi và đặc biệt là có thể sử dụng kỹ thuật Boolean Base do ta hoàn toàn có thể kiểm soát giá trị logic sau WHERE dựa vào input cung cấp cho ```%username%``` để có các suy luận nhât định giúp rò ra thông tin.
 
+Thử chạy biểu thức logic để xác định độ dài của password
+
+```' OR (SELECT LENGTH(password) FROM users WHERE username='admin') = 8 --```
+
+Do vừa kết luận ở trên là nếu biểu thức logic sau WHERE là TRUE thì ứng dụng trả lại true ngược lại sẽ trả lại false => Nếu câu lệnh query là đúng <=> ứng dụng trả lại là true thì ta có thể xác định được độ dài password là 8. Ngược lại ứng dụng trả lại là false thì độ dài password khác 8. Nhưng mà khi đã có nhận định này ta chỉ cần chạy loop 1 vòng lặp từ 1-100 là dễ dàng xác định được độ dài password mà :) (Khi kết quả trả lại true).
+
+Sau đó tiếp tục kiểm tra xem ký tự đầu tiên của password có phải là a hay không bằng biểu thức logic sau:
+
+```' OR (SELECT SUBSTRING(password,1,1) FROM users WHERE username='admin') = 'a' --```
+
+Thử với các giá trị 'b', 'c', ... cho đến khi tìm được ký tự đúng.
+Lặp lại với các vị trí 2, 3, ... cho đến khi lấy được toàn bộ mật khẩu.
+
+>Tóm lại, với Boolean-based SQL Injection, chúng ta sẽ dần dần dò tìm thông tin bằng cách thay đổi giá trị của biểu thức logic trong truy vấn SQL. Dựa vào phản hồi của hệ thống (đúng hoặc sai), kẻ tấn công có thể suy luận và trích xuất dữ liệu một cách có hệ thống.
 
 ## Time Base
 
