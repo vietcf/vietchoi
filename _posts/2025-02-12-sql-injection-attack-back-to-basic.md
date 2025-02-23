@@ -150,7 +150,7 @@ Boolean SQLi được sử dụng khi chỉ có 2 giá trị trả lại. Hai gi
 
 Kẻ tấn công gửi một truy vấn SQL đến cơ sở dữ liệu, buộc ứng dụng trả về kết quả khác nhau dựa trên điều kiện đúng hoặc sai từ đó dò dần dữ liệu. (Ai đã từng học thuật toán tìm kiếm chia đôi thì sẽ thấy nó tương tự như vậy).
 
-Ví dụ: Giả sử có ứng dụng có hàm kiểm tra sự tồn tại của một username với username nhận vào từ người dùng. Dưới ứng dụng xử lý bằng câu lệnh sql như sau:
+**Ví dụ:** Giả sử có ứng dụng có hàm kiểm tra sự tồn tại của một username với username nhận vào từ người dùng. Dưới ứng dụng xử lý bằng câu lệnh sql như sau:
 
 ```sql
 SELECT * FROM users WHERE username = '%username%' LIMIT 1;
@@ -164,7 +164,15 @@ SELECT * FROM users WHERE username = '%username%' LIMIT 1;
 
 * Thử với payload ```' OR 0=1 --``` thì trả lại false
 
-=> Ta thấy rằng có 2 giá trị true và flase được trả lại. Giá trị logic của biểu thức sau WHERE quyết định giá trị trả lại của Query: Nếu sau where là biểu thức logic có giá trị TRUE thì ứng dụng trả lại true ngược lại sau WHERE là biểu thức logic có giá trị FALSE thì ứng dụng trả lại false => Rất có thể ứng dụng có lỗi SQLi và đặc biệt là có thể sử dụng kỹ thuật Boolean Base do ta hoàn toàn có thể kiểm soát giá trị logic sau WHERE dựa vào input cung cấp cho ```%username%``` để có các suy luận nhât định giúp rò ra thông tin.
+=> Ta thấy rằng ứng dụng giá trị **true** và **flase**. Giá trị này được quyết định bởi biểu thức logic sau mệnh đề WHERE trong câu truy vấn SQL. Cụ thể 
+
+* Nếu biểu thức logic sau WHERE có giá trị TRUE, ứng dụng trả về **true**.
+
+* Nếu biểu thức logic sau WHERE có giá trị FALSE, ứng dụng trả về **false**.
+
+Hiện tượng này cho thấy ứng dụng có thể tồn tại lỗ hổng SQLi. Đặc biệt, chúng ta có thể khai thác lỗ hổng này bằng kỹ thuật Boolean-based SQL injection. Lý do: Kỹ thuật Boolean-based SQL injection cho phép chúng ta kiểm soát giá trị logic của biểu thức sau WHERE thông qua dữ liệu đầu vào được cung cấp cho biến %username%. Dựa vào kết quả true hoặc false trả về, chúng ta có thể suy luận và từng bước thu thập thông tin về cơ sở dữ liệu.
+
+*Quay lại với ứng dụng bên trên, áp dung kỹ thuật Boolean ta thực hiện như sau:*
 
 Thử chạy biểu thức logic để xác định độ dài của password
 
@@ -182,6 +190,7 @@ Lặp lại với các vị trí 2, 3, ... cho đến khi lấy được toàn b
 >Tóm lại, với Boolean-based SQL Injection, chúng ta sẽ dần dần dò tìm thông tin bằng cách thay đổi giá trị của biểu thức logic trong truy vấn SQL. Dựa vào phản hồi của hệ thống (đúng hoặc sai), kẻ tấn công có thể suy luận và trích xuất dữ liệu một cách có hệ thống.
 
 ## Time Base
+
 
 # Outband SQLi
 
