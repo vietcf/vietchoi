@@ -122,9 +122,9 @@ Tiếp tục không khó để lấy tên các bảng của CSDL bằng một s�
 
 Quá lợi hại phải không các bạn.
 
-# Inferentail/Blind SQLi
+# Inferential/Blind SQLi
 
-Inferentail SQL Injection (Có người còn gọi là Blind SQLi) là kỹ thuật tấn công SQL Injection trong đó payload vẫn được thực thi theo đúng ý Attacker nhưng Attacker không nhận được phản hồi trực tiếp từ hệ thống (Blind ~ mù) do kết quả của việc thực thi hoặc lỗi bị ẩn hoặc bị tắt Disabed. Tuy nhiên, bằng cách quan sát các thay đổi trong hành vi ứng dụng, kẻ tấn công vẫn có thể suy luận và trích xuất dữ liệu từ database.
+Inferential SQL Injection (Có người còn gọi là Blind SQLi) là kỹ thuật tấn công SQL Injection trong đó payload vẫn được thực thi theo đúng ý Attacker nhưng Attacker không nhận được phản hồi trực tiếp từ hệ thống (Blind ~ mù) do kết quả của việc thực thi hoặc lỗi bị ẩn hoặc bị tắt Disabed. Tuy nhiên, bằng cách quan sát các thay đổi trong hành vi ứng dụng, kẻ tấn công vẫn có thể suy luận và trích xuất dữ liệu từ database.
 
 Với Blind SQLi có 2 kỹ thuật hay được sử dụng là: Authentication Bypass và Boolean Based.
 
@@ -190,6 +190,26 @@ Lặp lại với các vị trí 2, 3, ... cho đến khi lấy được toàn b
 >Tóm lại, với Boolean-based SQL Injection, chúng ta sẽ dần dần dò tìm thông tin bằng cách thay đổi giá trị của biểu thức logic trong truy vấn SQL. Dựa vào phản hồi của hệ thống (đúng hoặc sai), kẻ tấn công có thể suy luận và trích xuất dữ liệu một cách có hệ thống.
 
 ## Time Base
+
+Một trong những kỹ thuật phổ biến được sử dụng trong Blind SQLi là dựa trên thời gian (time-based). Attacker sẽ gửi một truy vấn SQL đến cơ sở dữ liệu. Truy vấn này được thiết kế để gây ra một độ trễ nhất định trong phản hồi của ứng dụng nếu một điều kiện cụ thể là đúng. Bằng cách đo thời gian phản hồi, Attacker có thể suy luận xem điều kiện đó là đúng hay sai.
+
+Với kỹ thuật này thông thường Attacker sử dụng hàm SLEEP(x) để thực hiện việc này.
+
+Ví dụ: Giả sử khi truy cập vào dường dẫn https://website.thm/analytics?referrer=tryhackme.com ứng dụng sẽ lấy toàn bộ thông tin log tracking liên quan tới domain tryhackme.com bằng câu lệnh truy vấn sau để trả lại (Dĩ nhiên không làm sạch giá trị của %domain%)
+
+```select * from analytics_referrers where domain='tryhackme.com' LIMIT 1```
+
+Thử một số payload thay vào %domain% như bên dưới và thời gian phản hồi tương ứng có thay đổi
+
+![sqli technical time base]({{site.url}}/assets/img/2025/02/12/5-sql-injection-time-base.png)
+
+Lý giải cho sự khác biệt về thời gian thực thi như sau: Ta có thể nhận ra rằng nếu câu lệnh Query đúng cú pháp thì trang web sẽ trả lời hơi trễ ~sau 5s (Do câu lệnh SLEEP được thực thi) còn lại gần như trả lời tức thì => Ta có thể xác định được số cột của bảng analytics_referrers. Hay đấy nhưng bây giờ làm gì hay ho hơn chút đi.
+
+```sql
+admin123' UNION SELECT SLEEP(5),2 where database() like 'u%';
+admin123' UNION SELECT SLEEP(5),2 where database() like 'sqli_f%';--
+```
+
 
 
 # Outband SQLi
