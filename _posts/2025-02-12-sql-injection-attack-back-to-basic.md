@@ -164,7 +164,7 @@ SELECT * FROM users WHERE username = '%username%' LIMIT 1;
 
 * Thử với payload ```' OR 0=1 --``` thì trả lại false
 
-=> Ta thấy rằng ứng dụng giá trị **true** và **flase**. Giá trị này được quyết định bởi biểu thức logic sau mệnh đề WHERE trong câu truy vấn SQL. Cụ thể 
+=> Ta thấy rằng ứng dụng trả lại hai giá trị **true** và **flase**. Giá trị này được quyết định bởi biểu thức logic sau mệnh đề WHERE trong câu truy vấn SQL. Cụ thể 
 
 * Nếu biểu thức logic sau WHERE có giá trị TRUE, ứng dụng trả về **true**.
 
