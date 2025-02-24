@@ -203,16 +203,45 @@ Thử một số payload thay vào %domain% như bên dưới và thời gian ph
 
 ![sqli technical time base]({{site.url}}/assets/img/2025/02/12/5-sql-injection-time-base.png)
 
-Lý giải cho sự khác biệt về thời gian thực thi như sau: Ta có thể nhận ra rằng nếu câu lệnh Query đúng cú pháp thì trang web sẽ trả lời hơi trễ ~sau 5s (Do câu lệnh SLEEP được thực thi) còn lại gần như trả lời tức thì => Ta có thể xác định được số cột của bảng analytics_referrers. Hay đấy nhưng bây giờ làm gì hay ho hơn chút đi.
+Lý giải cho sự khác biệt về thời gian thực thi như sau: Ta có thể nhận ra rằng nếu câu lệnh Query đúng cú pháp thì trang web sẽ trả lời trễ ~sau 5s (Do câu lệnh SLEEP được thực thi) còn lại gần như trả lời tức thì => Ta có thể xác định được số cột của bảng analytics_referrers. Hay đấy, nhưng nếu chỉ xác định được số cột dựa của query ban đầu dựa vào việc đúng hay sai của cú pháp câu lệnh SQL thì cũng chưa có ý nghĩa nhiều, giờ làm gì hay ho hơn chút đi.
+
+Thử dùng payload như sau: ```admin123' AND IF(ORD(SUBSTRING(database(),1,1))=68,SLEEP(5),0)```
+
+Lúc này câu lệnh thành như sau: 
 
 ```sql
-admin123' UNION SELECT SLEEP(5),2 where database() like 'u%';
-admin123' UNION SELECT SLEEP(5),2 where database() like 'sqli_f%';--
+select * from analytics_referrers where domain='tryhackme.com' AND IF(ORD(SUBSTRING(database(),1,1))=68,SLEEP(5),0) LIMIT 1
 ```
+
+Giải thích:
+
+```ORD(SUBSTRING(database(),1,1))```: Lấy ký tự đầu tiên của tên cơ sở dữ liệu và chuyển nó thành giá trị ASCII.
+
+```97```: Giá trị ASCII của ký tự 'a'.
+
+```IF(...,SLEEP(5),0)```: Nếu ký tự đầu tiên của tên cơ sở dữ liệu là 'a', truy vấn sẽ tạm dừng trong 5 giây. Ngược lại, truy vấn sẽ thực hiện bình thường
+
+Thử với các giá trị 'b', 'c', ... (chỉ cần thay đổi giá trị ASCII trong truy vấn) băng cách tương tự cho đến khi tìm được ký tự đúng <> Request bị chờ >= 5s.
+
+Lặp lại với các vị trí 2, 3, ... cho đến khi lấy được toàn bộ tên CSDL.
+
+Không quá khó để lặp lại kỹ thuật này để xác định tên các bảng cũng như dữ liệu trong bảng bằng việc dò từng ký tự một phải không?
 
 # Out-band SQLi
 
-Out-of-Band SQLi là kỹ thuật không phổ biến vì nó phụ thuộc vào việc bật các tính năng cụ thể trên máy chủ cơ sở dữ liệu hoặc vào logic của ứng dụng web để có thể thực hiện một lời gọi ra  mạng bên ngoài dựa trên kết quả truy vấn SQL.
+Như tên gọi của nó, loại tấn công này sử dụng hai kênh giao tiếp độc lập: một kênh để thực hiện tấn công (chẳng hạn như gửi yêu cầu web), và một kênh khác để thu thập dữ liệu (theo dõi các yêu cầu HTTP/DNS mà dịch vụ do kẻ tấn công kiểm soát nhận được). Quá trình này có thể được minh họa như sau:
 
-Loại tấn công này sử dụng hai kênh giao tiếp riêng biệt: một để thực hiện tấn công (ví dụ: gửi yêu cầu web) và một để thu thập dữ liệu (theo dõi các yêu cầu HTTP/DNS gửi đến dịch vụ do kẻ tấn công kiểm soát).
+![sqli technical out band]({{site.url}}/assets/img/2025/02/12/6-sql-injection-outband.png)
+
+1. Kẻ tấn công gửi một yêu cầu đến trang web có lỗ hổng SQL Injection với một đoạn mã tấn công.
+2. Trang web thực hiện truy vấn SQL đến cơ sở dữ liệu, trong đó cũng bao gồm đoạn mã được chèn của hacker.
+3. Đoạn mã chứa một yêu cầu buộc hệ thống gửi một yêu cầu HTTP/DNS ngược lại đến máy chủ của hacker, trong đó có dữ liệu từ cơ sở dữ liệu.
+
+Nhìn chung Out-Band SQLi không phổ biến vì nó phụ thuộc vào việc bật các tính năng cụ thể trên máy chủ cơ sở dữ liệu hoặc vào logic của ứng dụng web có thực hiện lời gọi ra bên ngoài dựa trên kết quả truy vấn SQL. Anw tôi sẽ viết tiếp nó khi thực tế gặp trường hợp này.
+
+# Một số các thuật ngữ liên quan tới SQLi
+
+* Second-Order SQL Injection (Store SQLi): Là một dạng tấn công SQLi phức tạp hơn so với SQLi thông thường. Điểm khác biệt chính là dữ liệu độc hại không được chèn trực tiếp vào truy vấn SQL mà được lưu trữ trước đó trong cơ sở dữ liệu hoặc một nơi nào đó, sau đó mới được sử dụng trong một truy vấn khác.
+
+![sqli second order]({{site.url}}/assets/img/2025/02/12/67-sql-injection-second-order.png)
 
