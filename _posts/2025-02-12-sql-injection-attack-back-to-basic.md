@@ -243,5 +243,5 @@ Nhìn chung Out-Band SQLi không phổ biến vì nó phụ thuộc vào việc 
 
 * Second-Order SQL Injection (Store SQLi): Là một dạng tấn công SQLi phức tạp hơn so với SQLi thông thường. Điểm khác biệt chính là dữ liệu độc hại không được chèn trực tiếp vào truy vấn SQL mà được lưu trữ trước đó trong cơ sở dữ liệu hoặc một nơi nào đó, sau đó mới được sử dụng trong một truy vấn khác.
 
-![sqli second order]({{site.url}}/assets/img/2025/02/12/67-sql-injection-second-order.png)
+![sqli second order]({{site.url}}/assets/img/2025/02/12/7-sql-injection-second-order.png)
 
